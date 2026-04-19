@@ -1,0 +1,7 @@
+sample_id,fasta_file,antibiotic,resistance
+SAMPLE_001,SAMPLE_001.fasta,Ciprofloxacin,Resistant
+SAMPLE_002,SAMPLE_002.fasta,Ciprofloxacin,Susceptible
+SAMPLE_003,SAMPLE_003.fasta,Amoxicillin,Resistant
+SAMPLE_004,SAMPLE_004.fasta,Amoxicillin,Susceptible
+SAMPLE_005,SAMPLE_005.fasta,Rifampicin,Resistant
+SAMPLE_006,SAMPLE_006.fasta,Rifampicin,Susceptible

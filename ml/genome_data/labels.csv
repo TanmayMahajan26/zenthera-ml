@@ -1,0 +1,151 @@
+sample_id,fasta_file,antibiotic,resistance,source,genome_name
+BVBRC_562.56783,BVBRC_562.56783.fasta,Ciprofloxacin,Resistant,BV-BRC,Escherichia coli strain 372-13
+BVBRC_1280.16599,BVBRC_1280.16599.fasta,Ciprofloxacin,Resistant,BV-BRC,Staphylococcus aureus strain CM138
+BVBRC_72407.2898,BVBRC_72407.2898.fasta,Ciprofloxacin,Resistant,BV-BRC,Klebsiella pneumoniae subsp. pneumoniae MRSN752001
+BVBRC_485.18756,BVBRC_485.18756.fasta,Ciprofloxacin,Resistant,BV-BRC,Neisseria gonorrhoeae NGPT09069
+BVBRC_485.18571,BVBRC_485.18571.fasta,Ciprofloxacin,Resistant,BV-BRC,Neisseria gonorrhoeae NGPT12027
+BVBRC_573.15473,BVBRC_573.15473.fasta,Ciprofloxacin,Resistant,BV-BRC,Klebsiella pneumoniae strain 10315_6#65
+BVBRC_1280.24343,BVBRC_1280.24343.fasta,Ciprofloxacin,Resistant,BV-BRC,Staphylococcus aureus strain S087_N01_C01 strain S87
+BVBRC_1280.29695,BVBRC_1280.29695.fasta,Ciprofloxacin,Resistant,BV-BRC,Staphylococcus aureus strain HICF0029
+BVBRC_573.52406,BVBRC_573.52406.fasta,Ciprofloxacin,Resistant,BV-BRC,Klebsiella pneumoniae ST11 CRKP16
+BVBRC_573.24442,BVBRC_573.24442.fasta,Ciprofloxacin,Resistant,BV-BRC,Klebsiella pneumoniae strain MUGSI_83
+BVBRC_573.20894,BVBRC_573.20894.fasta,Ciprofloxacin,Resistant,BV-BRC,Klebsiella pneumoniae strain EuSCAPE_RS029
+BVBRC_573.35695,BVBRC_573.35695.fasta,Ciprofloxacin,Resistant,BV-BRC,Klebsiella pneumoniae strain HD6665
+BVBRC_573.33236,BVBRC_573.33236.fasta,Ciprofloxacin,Resistant,BV-BRC,Klebsiella pneumoniae strain NR5105
+BVBRC_573.78410,BVBRC_573.78410.fasta,Ciprofloxacin,Resistant,BV-BRC,Klebsiella pneumoniae SKLX099088
+BVBRC_573.37216,BVBRC_573.37216.fasta,Ciprofloxacin,Resistant,BV-BRC,Klebsiella pneumoniae strain ET20
+BVBRC_1280.30864,BVBRC_1280.30864.fasta,Ciprofloxacin,Susceptible,BV-BRC,Staphylococcus aureus strain HP20814.008
+BVBRC_573.65923,BVBRC_573.65923.fasta,Ciprofloxacin,Susceptible,BV-BRC,Klebsiella pneumoniae JBBCACA-19-0127
+BVBRC_1280.38249,BVBRC_1280.38249.fasta,Ciprofloxacin,Susceptible,BV-BRC,Staphylococcus aureus 71532_cf8
+BVBRC_562.145027,BVBRC_562.145027.fasta,Ciprofloxacin,Susceptible,BV-BRC,Escherichia coli PT_EC0037
+BVBRC_573.67391,BVBRC_573.67391.fasta,Ciprofloxacin,Susceptible,BV-BRC,Klebsiella pneumoniae MGL_K_15
+BVBRC_623.1811,BVBRC_623.1811.fasta,Ciprofloxacin,Susceptible,BV-BRC,Shigella flexneri AUSMDU00010458
+BVBRC_562.99107,BVBRC_562.99107.fasta,Ciprofloxacin,Susceptible,BV-BRC,Escherichia coli e61df582-7bb8-11e9-a8d3-68b59976a384
+BVBRC_1280.21722,BVBRC_1280.21722.fasta,Ciprofloxacin,Susceptible,BV-BRC,Staphylococcus aureus strain ST612WAP3
+BVBRC_562.99221,BVBRC_562.99221.fasta,Ciprofloxacin,Susceptible,BV-BRC,Escherichia coli 59faed3e-7bb9-11e9-a8d3-68b59976a384
+BVBRC_573.17617,BVBRC_573.17617.fasta,Ciprofloxacin,Susceptible,BV-BRC,Klebsiella pneumoniae strain COL-Kpn26
+BVBRC_562.22950,BVBRC_562.22950.fasta,Ciprofloxacin,Susceptible,BV-BRC,Escherichia coli O21:H4 strain ECO0563
+BVBRC_487.4454,BVBRC_487.4454.fasta,Ciprofloxacin,Susceptible,BV-BRC,Neisseria meningitidis NIID691
+BVBRC_1280.12460,BVBRC_1280.12460.fasta,Ciprofloxacin,Susceptible,BV-BRC,Staphylococcus aureus strain CFSA103
+BVBRC_1280.9694,BVBRC_1280.9694.fasta,Ciprofloxacin,Susceptible,BV-BRC,Staphylococcus aureus C00001187
+BVBRC_573.57336,BVBRC_573.57336.fasta,Ciprofloxacin,Susceptible,BV-BRC,Klebsiella pneumoniae J00802
+BVBRC_562.65671,BVBRC_562.65671.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli strain AMC_195
+BVBRC_562.23058,BVBRC_562.23058.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli O17:H18 strain ECO0692
+BVBRC_562.22831,BVBRC_562.22831.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli O16:H6 strain ECO0443
+BVBRC_615.2301,BVBRC_615.2301.fasta,Amoxicillin,Resistant,BV-BRC,Serratia marcescens ERR2174390
+BVBRC_562.23164,BVBRC_562.23164.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli O1:H7 strain ECO0856
+BVBRC_562.65028,BVBRC_562.65028.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli strain AMC_297
+BVBRC_562.65332,BVBRC_562.65332.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli strain AMC_63
+BVBRC_562.23669,BVBRC_562.23669.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli O2:H7 strain ECO1405
+BVBRC_562.65723,BVBRC_562.65723.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli strain AMC_778
+BVBRC_562.65329,BVBRC_562.65329.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli strain AMC_68
+BVBRC_562.23488,BVBRC_562.23488.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli O25:H4 strain ECO1063
+BVBRC_562.23710,BVBRC_562.23710.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli O6:H31 strain ECO1433
+BVBRC_562.23005,BVBRC_562.23005.fasta,Amoxicillin,Resistant,BV-BRC,Escherichia coli O25:H18 strain ECO0631
+BVBRC_1773.4184,BVBRC_1773.4184.fasta,Amoxicillin,Resistant,BV-BRC,Mycobacterium tuberculosis C00009037
+BVBRC_760822.3,BVBRC_760822.3.fasta,Amoxicillin,Resistant,BV-BRC,Streptococcus pneumoniae GA44288
+BVBRC_1773.5199,BVBRC_1773.5199.fasta,Amoxicillin,Susceptible,BV-BRC,Mycobacterium tuberculosis TRL0029147-S19
+BVBRC_1773.5196,BVBRC_1773.5196.fasta,Amoxicillin,Susceptible,BV-BRC,Mycobacterium tuberculosis TRL0028744-S13
+BVBRC_1313.17311,BVBRC_1313.17311.fasta,Amoxicillin,Susceptible,BV-BRC,Streptococcus pneumoniae strain 97
+BVBRC_1773.3382,BVBRC_1773.3382.fasta,Amoxicillin,Susceptible,BV-BRC,Mycobacterium tuberculosis 8650-04
+BVBRC_1773.3294,BVBRC_1773.3294.fasta,Amoxicillin,Susceptible,BV-BRC,Mycobacterium tuberculosis 7942-05
+BVBRC_562.22833,BVBRC_562.22833.fasta,Amoxicillin,Susceptible,BV-BRC,Escherichia coli O6:H1 strain ECO0445
+BVBRC_1717.899,BVBRC_1717.899.fasta,Amoxicillin,Susceptible,BV-BRC,Corynebacterium diphtheriae FRC0129
+BVBRC_562.23323,BVBRC_562.23323.fasta,Amoxicillin,Susceptible,BV-BRC,Escherichia coli O45:H7 strain ECO0976
+BVBRC_562.23593,BVBRC_562.23593.fasta,Amoxicillin,Susceptible,BV-BRC,Escherichia coli O25:H4 strain ECO1165
+BVBRC_1717.996,BVBRC_1717.996.fasta,Amoxicillin,Susceptible,BV-BRC,Corynebacterium diphtheriae FRC0485
+BVBRC_1773.2541,BVBRC_1773.2541.fasta,Amoxicillin,Susceptible,BV-BRC,Mycobacterium tuberculosis 11365-03
+BVBRC_1717.987,BVBRC_1717.987.fasta,Amoxicillin,Susceptible,BV-BRC,Corynebacterium diphtheriae FRC0477
+BVBRC_562.65463,BVBRC_562.65463.fasta,Amoxicillin,Susceptible,BV-BRC,Escherichia coli strain AMC_169
+BVBRC_1717.817,BVBRC_1717.817.fasta,Amoxicillin,Susceptible,BV-BRC,Corynebacterium diphtheriae CIP107518
+BVBRC_562.23495,BVBRC_562.23495.fasta,Amoxicillin,Susceptible,BV-BRC,Escherichia coli O75:H5 strain ECO1029
+NCBI_3266092634,NCBI_3266092634.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_3266088636,NCBI_3266088636.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_3261135107,NCBI_3261135107.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_3261129695,NCBI_3261129695.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_3259759488,NCBI_3259759488.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_3259518659,NCBI_3259518659.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_3198542233,NCBI_3198542233.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_3198321281,NCBI_3198321281.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_2295015317,NCBI_2295015317.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_2295015160,NCBI_2295015160.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_2295012681,NCBI_2295012681.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_2294922502,NCBI_2294922502.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_2871203777,NCBI_2871203777.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_2871119697,NCBI_2871119697.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_2871119678,NCBI_2871119678.fasta,Ciprofloxacin,Resistant,NCBI,
+NCBI_3266092634,NCBI_3266092634.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_3266088636,NCBI_3266088636.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_3263661931,NCBI_3263661931.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_3261135107,NCBI_3261135107.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_3261129695,NCBI_3261129695.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_2991388683,NCBI_2991388683.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_2991388679,NCBI_2991388679.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_2991388669,NCBI_2991388669.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_2991388665,NCBI_2991388665.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_2991388663,NCBI_2991388663.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_2991388661,NCBI_2991388661.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_2991388649,NCBI_2991388649.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_2991388646,NCBI_2991388646.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_2991388638,NCBI_2991388638.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_2991388635,NCBI_2991388635.fasta,Ciprofloxacin,Susceptible,NCBI,
+NCBI_3259759488,NCBI_3259759488.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_3259518659,NCBI_3259518659.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2871119678,NCBI_2871119678.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2580653790,NCBI_2580653790.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2295018284,NCBI_2295018284.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2295014767,NCBI_2295014767.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2295008730,NCBI_2295008730.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2294998196,NCBI_2294998196.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2294998180,NCBI_2294998180.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2294919231,NCBI_2294919231.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2577498191,NCBI_2577498191.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2865882957,NCBI_2865882957.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2865868806,NCBI_2865868806.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2862578136,NCBI_2862578136.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_2862574584,NCBI_2862574584.fasta,Amoxicillin,Resistant,NCBI,
+NCBI_3266092634,NCBI_3266092634.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_3266088636,NCBI_3266088636.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388683,NCBI_2991388683.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388679,NCBI_2991388679.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388669,NCBI_2991388669.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388665,NCBI_2991388665.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388663,NCBI_2991388663.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388661,NCBI_2991388661.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388646,NCBI_2991388646.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388635,NCBI_2991388635.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388617,NCBI_2991388617.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388615,NCBI_2991388615.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388613,NCBI_2991388613.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388602,NCBI_2991388602.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2991388597,NCBI_2991388597.fasta,Amoxicillin,Susceptible,NCBI,
+NCBI_2862594147,NCBI_2862594147.fasta,Rifampicin,Resistant,NCBI,
+NCBI_2447897198,NCBI_2447897198.fasta,Rifampicin,Resistant,NCBI,
+NCBI_2846736329,NCBI_2846736329.fasta,Rifampicin,Resistant,NCBI,
+NCBI_2844382207,NCBI_2844382207.fasta,Rifampicin,Resistant,NCBI,
+NCBI_2831118354,NCBI_2831118354.fasta,Rifampicin,Resistant,NCBI,
+NCBI_2815365972,NCBI_2815365972.fasta,Rifampicin,Resistant,NCBI,
+NCBI_3158697003,NCBI_3158697003.fasta,Rifampicin,Resistant,NCBI,
+NCBI_3158642917,NCBI_3158642917.fasta,Rifampicin,Resistant,NCBI,
+NCBI_3158603194,NCBI_3158603194.fasta,Rifampicin,Resistant,NCBI,
+NCBI_3150929797,NCBI_3150929797.fasta,Rifampicin,Resistant,NCBI,
+NCBI_3150925168,NCBI_3150925168.fasta,Rifampicin,Resistant,NCBI,
+NCBI_3150920497,NCBI_3150920497.fasta,Rifampicin,Resistant,NCBI,
+NCBI_3150915172,NCBI_3150915172.fasta,Rifampicin,Resistant,NCBI,
+NCBI_3101789389,NCBI_3101789389.fasta,Rifampicin,Resistant,NCBI,
+NCBI_3101785483,NCBI_3101785483.fasta,Rifampicin,Resistant,NCBI,
+NCBI_2862594147,NCBI_2862594147.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_2447897198,NCBI_2447897198.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_2846736329,NCBI_2846736329.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_2844382207,NCBI_2844382207.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_2831118354,NCBI_2831118354.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_2815365972,NCBI_2815365972.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_3158697003,NCBI_3158697003.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_3158642917,NCBI_3158642917.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_3158603194,NCBI_3158603194.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_3150929797,NCBI_3150929797.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_3150925168,NCBI_3150925168.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_3150920497,NCBI_3150920497.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_3150915172,NCBI_3150915172.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_3101789389,NCBI_3101789389.fasta,Rifampicin,Susceptible,NCBI,
+NCBI_3101785483,NCBI_3101785483.fasta,Rifampicin,Susceptible,NCBI,

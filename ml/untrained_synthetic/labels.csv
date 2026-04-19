@@ -1,0 +1,2 @@
+sample_id,fasta_file,antibiotic,resistance
+SAMPLE_0001,SAMPLE_0001.fasta,Amoxicillin,Susceptible

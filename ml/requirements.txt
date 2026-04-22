@@ -1,8 +1,15 @@
 # Zenthera ML — Python Dependencies
 # ==================================
-# For data fetching (fetch_genomic_data.py): no extra deps needed (uses stdlib)
-# For model training (antibiotic_resistance_predictor.py):
+# Core (required)
 numpy>=1.24.0
 pandas>=2.0.0
 scikit-learn>=1.3.0
 joblib>=1.3.0
+
+# GPU-accelerated training (optional but recommended)
+xgboost>=2.0.0
+
+# Backend Web API (optional)
+flask>=3.0.0
+flask-cors>=4.0.0
+werkzeug>=3.0.0

@@ -1,0 +1,75 @@
+{
+  "trained_antibiotics": [
+    "Amoxicillin",
+    "Azithromycin",
+    "Cefixime",
+    "Ofloxacin"
+  ],
+  "skipped_antibiotics": [],
+  "models": {
+    "Amoxicillin": {
+      "best_model": "XGBoost",
+      "accuracy": 0.7723,
+      "f1": 0.7716,
+      "precision": 0.7764,
+      "recall": 0.7723,
+      "train_samples": 805,
+      "test_samples": 202,
+      "model_file": "model_amoxicillin.joblib",
+      "scaler_file": "scaler_amoxicillin.joblib",
+      "encoder_file": "encoder_amoxicillin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Azithromycin": {
+      "best_model": "GradientBoosting",
+      "accuracy": 0.6885,
+      "f1": 0.686,
+      "precision": 0.6886,
+      "recall": 0.6885,
+      "train_samples": 728,
+      "test_samples": 183,
+      "model_file": "model_azithromycin.joblib",
+      "scaler_file": "scaler_azithromycin.joblib",
+      "encoder_file": "encoder_azithromycin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Cefixime": {
+      "best_model": "XGBoost",
+      "accuracy": 0.7521,
+      "f1": 0.7008,
+      "precision": 0.7219,
+      "recall": 0.7521,
+      "train_samples": 483,
+      "test_samples": 121,
+      "model_file": "model_cefixime.joblib",
+      "scaler_file": "scaler_cefixime.joblib",
+      "encoder_file": "encoder_cefixime.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Ofloxacin": {
+      "best_model": "LogisticRegression",
+      "accuracy": 0.6359,
+      "f1": 0.6362,
+      "precision": 0.6373,
+      "recall": 0.6359,
+      "train_samples": 777,
+      "test_samples": 195,
+      "model_file": "model_ofloxacin.joblib",
+      "scaler_file": "scaler_ofloxacin.joblib",
+      "encoder_file": "encoder_ofloxacin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    }
+  }
+}

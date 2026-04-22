@@ -9,6 +9,34 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function Dashboard() {
   const [pipelineStep, setPipelineStep] = useState(2);
+  const [predictions, setPredictions] = useState<any[] | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const handleUpload = async (file: File) => {
+    setIsAnalyzing(true);
+    setPipelineStep(3); // Start analyze animation or step
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("http://localhost:5000/api/predict", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPredictions(data.results);
+        setPipelineStep(4); // Finish
+      } else {
+        alert(data.error);
+        setPipelineStep(2);
+      }
+    } catch (err) {
+      alert("API Error: Make sure python api.py is running on port 5000!");
+      setPipelineStep(2);
+    }
+    setIsAnalyzing(false);
+  };
 
   return (
     <SidebarProvider>
@@ -21,17 +49,17 @@ export default function Dashboard() {
               ResistAI Dashboard
             </span>
             <div className="ml-auto flex items-center gap-2 font-mono text-[10px] text-muted-foreground/60">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              PIPELINE ACTIVE
+              <span className={`inline-block h-1.5 w-1.5 rounded-full ${isAnalyzing ? 'bg-warning animate-pulse' : 'bg-primary'}`} />
+              {isAnalyzing ? 'ANALYZING...' : 'PIPELINE READY'}
             </div>
           </header>
 
           <main className="flex-1 p-6 space-y-6 overflow-auto">
-            <UploadZone />
+            <UploadZone onUpload={handleUpload} isAnalyzing={isAnalyzing} />
             <PipelineStrip currentStep={pipelineStep} onStepClick={setPipelineStep} />
             <MetricsRow />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <ResistancePredictions />
+              <ResistancePredictions predictions={predictions} />
               <SequenceViewer />
             </div>
           </main>

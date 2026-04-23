@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -49,9 +51,11 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           <a href="/how-it-works" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-orange transition-colors">How it Works</a>
-          <a href="/#section-about" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-orange transition-colors">About Us</a>
+          <a href="/patients" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-orange transition-colors">Patients</a>
+          <a href="/analytics" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-orange transition-colors">Analytics</a>
+          <a href="/reports" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-orange transition-colors">Reports</a>
           
           <button 
             onClick={toggleDarkMode}
@@ -66,6 +70,16 @@ const Navbar: React.FC = () => {
           >
             Go to Dashboard
           </button>
+
+          {isAuthenticated ? (
+            <button onClick={() => { logout(); navigate('/'); }} className="text-sm font-medium text-red-500 hover:text-red-600 flex items-center gap-1 transition-colors">
+              <LogOut className="w-4 h-4" /> Logout
+            </button>
+          ) : (
+            <button onClick={() => navigate('/auth')} className="text-sm font-medium text-brand-orange hover:text-[#d64e1f] transition-colors">
+              Sign In
+            </button>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -96,7 +110,10 @@ const Navbar: React.FC = () => {
           >
             <div className="px-6 py-8 flex flex-col gap-6">
               <a href="/how-it-works" className="text-lg font-medium text-slate-900 dark:text-white" onClick={() => setIsMobileMenuOpen(false)}>How it Works</a>
-              <a href="/#section-about" className="text-lg font-medium text-slate-900 dark:text-white" onClick={() => setIsMobileMenuOpen(false)}>About Us</a>
+              <a href="/patients" className="text-lg font-medium text-slate-900 dark:text-white" onClick={() => setIsMobileMenuOpen(false)}>Patients</a>
+              <a href="/analytics" className="text-lg font-medium text-slate-900 dark:text-white" onClick={() => setIsMobileMenuOpen(false)}>Analytics</a>
+              <a href="/reports" className="text-lg font-medium text-slate-900 dark:text-white" onClick={() => setIsMobileMenuOpen(false)}>Reports</a>
+              
               <button 
                 onClick={() => {
                   navigate('/dashboard');
@@ -106,6 +123,16 @@ const Navbar: React.FC = () => {
               >
                 Go to Dashboard
               </button>
+              
+              {isAuthenticated ? (
+                <button onClick={() => { logout(); navigate('/'); setIsMobileMenuOpen(false); }} className="w-full py-4 bg-red-50 text-red-500 rounded-xl font-bold">
+                  Logout
+                </button>
+              ) : (
+                <button onClick={() => { navigate('/auth'); setIsMobileMenuOpen(false); }} className="w-full py-4 bg-brand-orange/10 text-brand-orange rounded-xl font-bold">
+                  Sign In
+                </button>
+              )}
             </div>
           </motion.div>
         )}

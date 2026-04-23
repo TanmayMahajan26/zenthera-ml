@@ -9,10 +9,13 @@ import {
   ShieldCheck, 
   ShieldAlert, 
   Info,
-  Target
+  Target,
+  Save,
+  CheckCircle2
 } from 'lucide-react';
 import Navbar from './Navbar';
 import { uploadGenome } from '../api/predictApi';
+import { useAuth, backendApi, getAuthHeaders } from '../context/AuthContext';
 
 interface DashboardResult {
   id: string;
@@ -54,6 +57,19 @@ const Dashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<'all' | 'resistant' | 'susceptible'>('all');
 
+  const { isAuthenticated } = useAuth();
+  const [patients, setPatients] = useState<any[]>([]);
+  const [selectedPatient, setSelectedPatient] = useState<string>('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      backendApi.get('/api/patients', { headers: getAuthHeaders() })
+        .then(res => setPatients(res.data))
+        .catch(() => {});
+    }
+  }, [isAuthenticated]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -135,6 +151,37 @@ const Dashboard: React.FC = () => {
         f.id === newFile.id ? { ...f, status: 'error' } : f
       ));
       setIsAnalyzing(false);
+    }
+  };
+
+  const handleSaveReport = async () => {
+    if (!selectedPatient || !genomeInfo || results.length === 0) return;
+    setIsSaving(true);
+    try {
+      const payload = {
+        patient: selectedPatient,
+        fileName: uploadedFiles[0]?.name || 'unknown.fasta',
+        organism: genomeInfo.matched_genus || 'Unknown',
+        seqLength: genomeInfo.seq_length,
+        gcContent: genomeInfo.gc_pct,
+        predictions: results.map(r => ({
+          antibiotic: r.antibiotic,
+          phenotype: r.prediction,
+          confidence: r.confidence,
+          model: r.model,
+          confidence_tier: r.confidence_tier
+        })),
+        totalResistant: results.filter(r => r.prediction === 'Resistant').length,
+        totalSusceptible: results.filter(r => r.prediction === 'Susceptible').length,
+        recommendedDrug: recommendations?.recommendation?.split('(')[0]?.trim() || ''
+      };
+      await backendApi.post('/api/reports', payload, { headers: getAuthHeaders() });
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to save report.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -357,10 +404,38 @@ const Dashboard: React.FC = () => {
 
                 {/* Main Predictions Table */}
                 <div className="space-y-6">
-                  <div className="flex flex-col md:flex-row items-center justify-between gap-6 px-6">
-                    <h3 className="text-3xl font-serif italic text-slate-900 dark:text-white">Resistance Profile</h3>
+                  <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 px-6">
+                    <div className="flex items-center gap-4">
+                      <h3 className="text-3xl font-serif italic text-slate-900 dark:text-white">Resistance Profile</h3>
+                      {isAuthenticated && (
+                        <div className="flex items-center gap-2 bg-slate-50 dark:bg-dark-surface p-1.5 rounded-full border border-slate-100 dark:border-dark-border">
+                          <select 
+                            value={selectedPatient}
+                            onChange={e => setSelectedPatient(e.target.value)}
+                            className="bg-transparent text-xs font-bold text-slate-600 dark:text-slate-300 focus:outline-none pl-3 pr-2 py-1 max-w-[150px] truncate"
+                          >
+                            <option value="">Select Patient</option>
+                            {patients.map(p => <option key={p._id} value={p._id}>{p.name}</option>)}
+                          </select>
+                          <button
+                            onClick={handleSaveReport}
+                            disabled={!selectedPatient || isSaving || saveSuccess}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${
+                              saveSuccess 
+                                ? 'bg-green-500 text-white' 
+                                : selectedPatient 
+                                  ? 'bg-brand-orange hover:bg-[#d64e1f] text-white' 
+                                  : 'bg-slate-200 dark:bg-dark-border text-slate-400 cursor-not-allowed'
+                            }`}
+                          >
+                            {saveSuccess ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Save className="w-3.5 h-3.5" />}
+                            {saveSuccess ? 'Saved' : isSaving ? 'Saving...' : 'Save'}
+                          </button>
+                        </div>
+                      )}
+                    </div>
                     
-                    <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
+                    <div className="flex flex-wrap items-center gap-4 w-full xl:w-auto">
                       {/* Search Bar */}
                       <div className="relative flex-1 md:w-64">
                         <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">

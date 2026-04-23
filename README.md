@@ -4,20 +4,17 @@ Zenthera is a computational biology platform that predicts antibiotic resistance
 
 ## Architecture
 
-```
+```text
 zenthera/
 ├── frontend/          # React + Vite + Tailwind UI
-│   └── src/
-│       ├── components/   # Landing, Dashboard, HowItWorks
-│       └── api/          # Axios client for /api/predict
-├── ml/                # Python ML Backend
-│   ├── api.py            # Flask REST API
-│   ├── kmer_utils.py     # K=7 feature extraction (16,384 dimensions)
-│   ├── predict_best_antibiotic.py  # Prediction engine
-│   ├── batch_train_100k.py         # Training pipeline (BV-BRC data)
-│   ├── trained_models/             # Trained .joblib models + manifest
-│   └── requirements.txt            # Python dependencies
-├── Procfile           # Render deployment config
+├── backend/           # Node.js/Express MERN Backend
+│   ├── models/        # MongoDB Schemas (User, Patient, Report)
+│   ├── routes/        # API Routes
+│   └── server.js      # Master Entry Point (Serves React, Proxies to Flask)
+├── ml/                # Python ML Pipeline
+│   ├── api.py         # Flask REST API (Runs in background)
+│   ├── trained_models/# AI Models
+│   └── requirements.txt
 └── README.md
 ```
 
@@ -25,39 +22,56 @@ zenthera/
 
 | Layer    | Technology |
 |----------|------------|
-| Frontend | React 19, Vite 8, Tailwind CSS 4, Framer Motion, Three.js |
-| Backend  | Flask, Gunicorn, scikit-learn, XGBoost |
-| ML       | K-mer frequency analysis (K=7), GPU-accelerated XGBoost |
+| Frontend | React 19, Tailwind CSS 4, Framer Motion, Recharts |
+| Backend  | Node.js, Express, MongoDB Atlas, JWT |
+| ML       | Flask, scikit-learn, XGBoost, K-mer extraction (K=7) |
 | Data     | BV-BRC (Bacterial & Viral Bioinformatics Resource Center) |
 
 ## Running Locally
 
-### 1. Start the ML Backend
+### 1. Start the ML Backend (Port 5000)
 ```bash
 cd ml
 pip install -r requirements.txt
 python api.py
 ```
-Flask server starts on `http://localhost:5000`
 
-### 2. Start the Frontend
+### 2. Start the Node Backend (Port 4000)
+```bash
+cd backend
+npm install
+node server.js
+```
+
+### 3. Start the Frontend (Port 5173)
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Vite dev server starts on `http://localhost:5173` (proxies API to Flask)
 
 ## Supported Antibiotics (14)
 
 Amoxicillin · Ampicillin · Azithromycin · Cefixime · Ciprofloxacin · Clindamycin · Erythromycin · Gentamicin · Levofloxacin · Meropenem · Ofloxacin · Penicillin · Tetracycline · Vancomycin
 
-## Deployment (Render Free Tier)
+## Deployment (Render Free Tier - Single Service)
 
-1. Build frontend: `cd frontend && npm run build`
-2. Create a **Web Service** on Render
-3. Set **Build Command**: `cd frontend && npm install && npm run build && cd ../ml && pip install -r requirements.txt`
-4. Set **Start Command**: `cd ml && gunicorn api:app --bind 0.0.0.0:$PORT --timeout 120`
+You can run both Node.js and Python on a single Render Free Tier instance using this configuration:
+
+1. Create a **Web Service** on Render connected to this repository.
+2. Set **Environment**: `Node`
+3. Set **Build Command**: 
+   ```bash
+   cd frontend && npm install && npm run build && cd ../backend && npm install && cd ../ml && pip install -r requirements.txt
+   ```
+4. Set **Start Command**: 
+   ```bash
+   python ml/api.py & node backend/server.js
+   ```
+5. **Environment Variables**:
+   - `MONGO_URI` = `mongodb+srv://tanmay261006_1:tanmay123@cluster1.9bpvqzm.mongodb.net/zenthera?appName=Cluster1`
+   - `JWT_SECRET` = `zenthera_ai_secret_key_2026`
+   - `PYTHON_VERSION` = `3.11.12`
 
 ## Training Pipeline
 

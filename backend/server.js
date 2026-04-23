@@ -28,9 +28,26 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/labs', labRoutes);
 
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const path = require('path');
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'healthy', service: 'zenthera-mern-backend' });
+});
+
+// Proxy ML requests to Flask backend running on port 5000 internally
+app.use('/api/predict', createProxyMiddleware({ 
+  target: 'http://127.0.0.1:5000', 
+  changeOrigin: true 
+}));
+
+// Serve React static files
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// SPA Catch-all Route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
 // Connect to MongoDB and start server

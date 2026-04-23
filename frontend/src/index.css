@@ -1,155 +1,89 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --color-brand-orange: #F15A24;
+  --color-brand-orange-light: #FF7A45;
+  --color-brand-orange-dark: #D94A18;
+  --color-brand-primary: #F15A24;
+  --color-brand-dark: #1A1A2E;
+  --color-brand-gray: #64748b;
+  --color-surface-glass: rgba(255,255,255,0.08);
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 8%;
-
-    --card: 30 20% 97%;
-    --card-foreground: 0 0% 8%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
-
-    --primary: 24 100% 50%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 30 30% 95%;
-    --secondary-foreground: 0 0% 15%;
-
-    --muted: 30 15% 93%;
-    --muted-foreground: 0 0% 40%;
-
-    --accent: 30 40% 96%;
-    --accent-foreground: 24 100% 50%;
-
-    --destructive: 348 100% 55%;
-    --destructive-foreground: 0 0% 100%;
-
-    --warning: 44 100% 52%;
-    --warning-foreground: 0 0% 8%;
-
-    --info: 195 86% 52%;
-    --info-foreground: 0 0% 100%;
-
-    --susceptible: 156 70% 45%;
-    --intermediate: 44 100% 52%;
-    --resistant: 348 100% 55%;
-
-    --border: 30 15% 88%;
-    --input: 30 15% 88%;
-    --ring: 24 100% 50%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 30 20% 97%;
-    --sidebar-foreground: 0 0% 8%;
-    --sidebar-primary: 24 100% 50%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 30 40% 96%;
-    --sidebar-accent-foreground: 24 100% 50%;
-    --sidebar-border: 30 15% 88%;
-    --sidebar-ring: 24 100% 50%;
-
-    --font-display: 'Space Mono', monospace;
-    --font-serif: 'Instrument Serif', serif;
-    --font-body: 'DM Sans', sans-serif;
-  }
+  /* Dark Mode specific colors */
+  --color-dark-bg: #0A0A0F;
+  --color-dark-surface: #12121A;
+  --color-dark-border: #1E1E2D;
+  --color-dark-text: #E2E8F0;
+  --color-dark-muted: #94A3B8;
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-
   body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-body);
-    font-weight: 300;
-  }
-
-  h1, h2, h3 {
-    font-family: var(--font-display);
+    @apply bg-white text-slate-900 overflow-x-hidden;
+    font-family: var(--font-sans);
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: var(--font-display);
-  }
-  .font-serif {
     font-family: var(--font-serif);
   }
-  .font-body {
-    font-family: var(--font-body);
-  }
-
-  .text-acid {
-    color: hsl(var(--primary));
-  }
-  .bg-acid {
-    background-color: hsl(var(--primary));
-  }
-
-  .grid-bg {
-    background-image:
-      linear-gradient(hsl(var(--border) / 0.4) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--border) / 0.4) 1px, transparent 1px);
-    background-size: 50px 50px;
-  }
-
-  .scanline {
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      hsl(var(--primary) / 0.05) 50%,
-      transparent 100%
-    );
-    animation: scanline 3s linear infinite;
-  }
-
-  .corner-brackets {
-    position: relative;
-  }
-  .corner-brackets::before,
-  .corner-brackets::after {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-color: hsl(var(--primary));
-  }
-  .corner-brackets::before {
-    top: -1px;
-    left: -1px;
-    border-top: 2px solid;
-    border-left: 2px solid;
-  }
-  .corner-brackets::after {
-    bottom: -1px;
-    right: -1px;
-    border-bottom: 2px solid;
-    border-right: 2px solid;
+  .text-glow-orange {
+    text-shadow: 0 0 40px rgba(241, 90, 36, 0.4);
   }
 }
 
-@keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+/* ── DNA Helix Rotation ───────────────────── */
+@keyframes dna-rotate {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+@keyframes dna-float {
+  0%, 100% { transform: translateY(0px) rotateZ(-12deg); }
+  50% { transform: translateY(-20px) rotateZ(-12deg); }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 0.2; }
+  100% { transform: scale(0.8); opacity: 0.6; }
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+.animate-dna-float {
+  animation: dna-float 6s ease-in-out infinite;
+}
+.animate-pulse-ring {
+  animation: pulse-ring 4s ease-in-out infinite;
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+.animate-fade-up {
+  animation: fade-up 0.8s ease-out forwards;
 }
 
-@keyframes float-bacteria {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(10px, -15px) rotate(5deg); }
-  50% { transform: translate(-5px, -25px) rotate(-3deg); }
-  75% { transform: translate(-15px, -10px) rotate(7deg); }
+/* ── Grain Overlay ────────────────────────── */
+.grain-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+
+/* ── Scrollbar ────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f8fafc; }
+::-webkit-scrollbar-thumb { background: #F15A24; border-radius: 99px; }

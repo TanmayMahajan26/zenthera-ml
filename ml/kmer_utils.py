@@ -5,11 +5,11 @@ Reusable k-mer feature extraction used by both the training pipeline
 and the prediction script.
 
 Features per genome:
-  - 1024 normalized 5-mer frequencies
+  - 16384 normalized 7-mer frequencies
   - GC content (fraction of G+C bases)
   - log10(genome_length) 
   - k-mer diversity (fraction of distinct k-mers observed)
-  Total: 1027 features
+  Total: 16387 features
 """
 
 import numpy as np
@@ -20,7 +20,7 @@ from typing import Optional
 # ---------------------------------------------------------------------------
 # Constants — these MUST stay identical between training and prediction
 # ---------------------------------------------------------------------------
-K = 5
+K = 7
 NUCLEOTIDES = ["A", "C", "G", "T"]
 ALL_KMERS = sorted(["".join(combo) for combo in product(NUCLEOTIDES, repeat=K)])
 KMER_INDEX = {kmer: idx for idx, kmer in enumerate(ALL_KMERS)}

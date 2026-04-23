@@ -99,17 +99,27 @@ NCBI_DELAY  = 0.40
 MAX_RETRIES = 3
 RETRY_DELAY = 5
 
-# Antibiotics to query (user's primary 4 targets)
+# Antibiotics to query (14 targets across all major drug classes)
 ANTIBIOTICS = [
     "azithromycin",
     "amoxicillin",
     "ofloxacin",
     "cefixime",
+    "ciprofloxacin",
+    "tetracycline",
+    "meropenem",
+    "gentamicin",
+    "erythromycin",
+    "penicillin",
+    "vancomycin",
+    "clindamycin",
+    "levofloxacin",
+    "ampicillin",
 ]
 
 PHENOTYPES = ["Resistant", "Susceptible"]
 
-# NCBI targeted search terms — focused on user's 4 antibiotics
+# NCBI targeted search terms — focused on resistance gene signatures
 NCBI_SEARCH_TERMS = {
     "azithromycin": {
         "Resistant": (
@@ -157,6 +167,126 @@ NCBI_SEARCH_TERMS = {
             '("Neisseria gonorrhoeae"[Organism] OR "Escherichia coli"[Organism]) '
             'AND "complete genome"[Title] '
             'NOT "cephalosporin resistance" NOT "cefixime"'
+        ),
+    },
+    "ciprofloxacin": {
+        "Resistant": (
+            '("bacteria"[Organism]) '
+            'AND (gyrA OR parC OR qnrA OR qnrB OR qnrS OR "ciprofloxacin resistant") '
+            'AND "complete genome"[Title]'
+        ),
+        "Susceptible": (
+            '("Escherichia coli"[Organism] OR "Klebsiella"[Organism]) '
+            'AND "complete genome"[Title] '
+            'NOT "fluoroquinolone resistance" NOT "ciprofloxacin"'
+        ),
+    },
+    "tetracycline": {
+        "Resistant": (
+            '("bacteria"[Organism]) '
+            'AND (tetA OR tetB OR tetM OR tetO OR "tetracycline resistance") '
+            'AND "complete genome"[Title]'
+        ),
+        "Susceptible": (
+            '("Escherichia coli"[Organism] OR "Bacillus"[Organism]) '
+            'AND "complete genome"[Title] '
+            'NOT "tetracycline resistance" NOT tetA NOT tetB'
+        ),
+    },
+    "meropenem": {
+        "Resistant": (
+            '("bacteria"[Organism]) '
+            'AND (blaKPC OR blaNDM OR blaVIM OR blaIMP OR "carbapenem resistance" OR "meropenem resistant") '
+            'AND "complete genome"[Title]'
+        ),
+        "Susceptible": (
+            '("Escherichia coli"[Organism] OR "Klebsiella pneumoniae"[Organism]) '
+            'AND "complete genome"[Title] '
+            'NOT "carbapenem" NOT blaKPC NOT blaNDM'
+        ),
+    },
+    "gentamicin": {
+        "Resistant": (
+            '("bacteria"[Organism]) '
+            'AND (aac OR ant OR aph OR "aminoglycoside resistance" OR "gentamicin resistant") '
+            'AND "complete genome"[Title]'
+        ),
+        "Susceptible": (
+            '("Escherichia coli"[Organism] OR "Staphylococcus"[Organism]) '
+            'AND "complete genome"[Title] '
+            'NOT "aminoglycoside resistance" NOT "gentamicin"'
+        ),
+    },
+    "erythromycin": {
+        "Resistant": (
+            '("bacteria"[Organism]) '
+            'AND (ermA OR ermB OR ermC OR mefA OR "erythromycin resistant" OR "macrolide resistance") '
+            'AND "complete genome"[Title]'
+        ),
+        "Susceptible": (
+            '("Streptococcus"[Organism] OR "Staphylococcus"[Organism]) '
+            'AND "complete genome"[Title] '
+            'NOT "erythromycin resistant" NOT "macrolide resistance"'
+        ),
+    },
+    "penicillin": {
+        "Resistant": (
+            '("bacteria"[Organism]) '
+            'AND (mecA OR blaZ OR pbp OR "penicillin resistant" OR "beta-lactam resistance") '
+            'AND "complete genome"[Title]'
+        ),
+        "Susceptible": (
+            '("Streptococcus"[Organism] OR "Staphylococcus"[Organism]) '
+            'AND "complete genome"[Title] '
+            'NOT "penicillin resistant" NOT mecA NOT blaZ'
+        ),
+    },
+    "vancomycin": {
+        "Resistant": (
+            '("bacteria"[Organism]) '
+            'AND (vanA OR vanB OR vanC OR "vancomycin resistant" OR "glycopeptide resistance") '
+            'AND "complete genome"[Title]'
+        ),
+        "Susceptible": (
+            '("Enterococcus"[Organism] OR "Staphylococcus aureus"[Organism]) '
+            'AND "complete genome"[Title] '
+            'NOT "vancomycin resistant" NOT vanA NOT vanB'
+        ),
+    },
+    "clindamycin": {
+        "Resistant": (
+            '("bacteria"[Organism]) '
+            'AND (ermA OR ermB OR ermC OR lnuA OR "clindamycin resistant" OR "lincosamide resistance") '
+            'AND "complete genome"[Title]'
+        ),
+        "Susceptible": (
+            '("Staphylococcus"[Organism] OR "Streptococcus"[Organism]) '
+            'AND "complete genome"[Title] '
+            'NOT "clindamycin resistant" NOT "lincosamide resistance"'
+        ),
+    },
+    "levofloxacin": {
+        "Resistant": (
+            '("bacteria"[Organism]) '
+            'AND (gyrA OR parC OR "levofloxacin resistant" OR "fluoroquinolone resistance") '
+            'AND "complete genome"[Title]'
+        ),
+        "Susceptible": (
+            '("Escherichia coli"[Organism] OR "Streptococcus pneumoniae"[Organism]) '
+            'AND "complete genome"[Title] '
+            'NOT "fluoroquinolone resistance" NOT "levofloxacin"'
+        ),
+    },
+    "ampicillin": {
+        "Resistant": (
+            '("bacteria"[Organism]) '
+            'AND (blaTEM OR blaSHV OR "ampicillin resistant" OR "beta-lactamase") '
+            'AND "complete genome"[Title]'
+        ),
+        "Susceptible": (
+            '("Escherichia coli"[Organism] OR "Enterococcus"[Organism]) '
+            'AND "complete genome"[Title] '
+            'NOT "ampicillin resistant" NOT blaTEM NOT "beta-lactamase"'
         ),
     },
 }
@@ -374,7 +504,7 @@ def download_fasta(genome_id, source: str, temp_dir: str) -> Optional[str]:
             f"?eq(genome_id,{urllib.parse.quote(genome_id)})"
             f"&http_accept=application/dna+fasta"
         )
-        data = http_get(url, accept="application/dna+fasta", timeout=30)
+        data = http_get(url, accept="application/dna+fasta", timeout=15)
         time.sleep(BVBRC_DELAY)
 
     else:  # NCBI
@@ -392,7 +522,7 @@ def download_fasta(genome_id, source: str, temp_dir: str) -> Optional[str]:
             "email": NCBI_EMAIL,
         })
         url = f"{NCBI_EFETCH}?{params}"
-        data = http_get(url, accept="text/plain", timeout=30)
+        data = http_get(url, accept="text/plain", timeout=15)
         time.sleep(NCBI_DELAY)
 
     if data is None or len(data) < 50:
@@ -484,7 +614,7 @@ def process_batches(
         batch_genome_ids = []
         batch_features = []
 
-        logger.info(f"\n  -- Batch {batch_idx} ({len(batch)} genomes, 5 parallel threads) --")
+        logger.info(f"\n  -- Batch {batch_idx} ({len(batch)} genomes, 15 parallel threads) --")
 
         # --- Parallel download using ThreadPoolExecutor ---
         def _download_and_extract(args_tuple):
@@ -506,7 +636,7 @@ def process_batches(
             except OSError:
                 fasta_size_kb = 0
 
-            if not sequence or seq_len < 500:
+            if not sequence or seq_len < 50000:
                 return idx, genome_id, source, None, dl_time, "SHORT", seq_len, fasta_size_kb
 
             features = extract_features(sequence)
@@ -518,7 +648,7 @@ def process_batches(
         tasks = [(j, gid, src) for j, (gid, src) in enumerate(batch)]
         completed_count = 0
 
-        with ThreadPoolExecutor(max_workers=5) as executor:
+        with ThreadPoolExecutor(max_workers=15) as executor:
             futures = {executor.submit(_download_and_extract, t): t for t in tasks}
             for future in as_completed(futures):
                 idx, genome_id, source, features, dl_time, status, seq_len, fsize = future.result()
@@ -544,6 +674,8 @@ def process_batches(
                     total_failed += 1
 
         # Save batch
+        batch_ok = len(batch_features)
+        batch_fail = completed_count - batch_ok
         if batch_features:
             batch_file = os.path.join(batch_dir, f"batch_{batch_idx:04d}.npz")
             np.savez_compressed(
@@ -554,8 +686,10 @@ def process_batches(
             total_processed += len(batch_features)
             size_mb = os.path.getsize(batch_file) / (1024 * 1024)
             logger.info(
-                f"  Batch {batch_idx} saved: {len(batch_features)} genomes, "
-                f"{size_mb:.1f} MB  (Total: {total_processed})"
+                f"\n  ╔═══ Batch {batch_idx} Summary ═══════════════════════════════════════╗"
+                f"\n  ║  OK: {batch_ok}  |  Failed/Skipped: {batch_fail}  |  Batch Size: {size_mb:.1f} MB"
+                f"\n  ║  RUNNING TOTAL: {total_processed} / {target} genomes trained"
+                f"\n  ╚═══════════════════════════════════════════════════════════════╝"
             )
 
     # Clean up temp dir
@@ -591,25 +725,17 @@ def get_models(use_gpu: bool = False) -> Dict:
     """Return dict of model_name → configured estimator."""
     models = {
         "RandomForest": RandomForestClassifier(
-            n_estimators=500,
-            max_depth=30,
+            n_estimators=100,
+            max_depth=20,
             min_samples_split=5,
             min_samples_leaf=2,
             random_state=42,
             n_jobs=-1,
             class_weight="balanced",
         ),
-        "GradientBoosting": GradientBoostingClassifier(
-            n_estimators=300,
-            max_depth=8,
-            learning_rate=0.1,
-            min_samples_split=10,
-            subsample=0.8,
-            random_state=42,
-        ),
         "LogisticRegression": LogisticRegression(
             C=1.0,
-            max_iter=2000,
+            max_iter=500,
             random_state=42,
             solver="lbfgs",
             class_weight="balanced",
@@ -618,8 +744,8 @@ def get_models(use_gpu: bool = False) -> Dict:
 
     if HAS_XGBOOST:
         xgb_params = {
-            "n_estimators": 500,
-            "max_depth": 10,
+            "n_estimators": 100,
+            "max_depth": 6,
             "learning_rate": 0.1,
             "subsample": 0.8,
             "colsample_bytree": 0.8,
@@ -801,11 +927,11 @@ def train_per_antibiotic(
 
         logger.info(f"    ✅ Saved: {model_path}")
 
-    # Save manifest
-    manifest_path = os.path.join(model_dir, "training_manifest.json")
-    with open(manifest_path, "w") as f:
-        json.dump(manifest, f, indent=2)
-    logger.info(f"\n  Manifest saved: {manifest_path}")
+        # Save manifest after each antibiotic
+        manifest_path = os.path.join(model_dir, "training_manifest.json")
+        with open(manifest_path, "w") as f:
+            json.dump(manifest, f, indent=2)
+        logger.info(f"    ✅ Manifest updated: {manifest_path}")
 
     return manifest
 
@@ -822,24 +948,22 @@ def _finetune_model(model_name, X_train, X_test, y_train, y_test, use_gpu):
                 base_params["tree_method"] = "hist"
             base = XGBClassifier(**base_params)
             param_grid = {
-                "n_estimators": [600],
-                "max_depth": [10, 15],
+                "n_estimators": [600, 800],
+                "max_depth": [8, 12],
                 "learning_rate": [0.05, 0.1],
             }
         elif "RandomForest" in model_name:
             base = RandomForestClassifier(random_state=42, n_jobs=-1, class_weight="balanced")
             param_grid = {
-                "n_estimators": [500, 800, 1000],
-                "max_depth": [20, 40, None],
-                "min_samples_split": [2, 5],
+                "n_estimators": [500, 800],
+                "max_depth": [30, None],
             }
         elif "GradientBoosting" in model_name:
             base = GradientBoostingClassifier(random_state=42)
             param_grid = {
-                "n_estimators": [300, 500],
-                "max_depth": [6, 10, 12],
-                "learning_rate": [0.05, 0.1, 0.15],
-                "subsample": [0.8, 0.9],
+                "n_estimators": [500],
+                "max_depth": [8],
+                "learning_rate": [0.1],
             }
         else:
             return model_name, None

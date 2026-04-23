@@ -1,20 +1,30 @@
 {
   "trained_antibiotics": [
     "Amoxicillin",
+    "Ampicillin",
     "Azithromycin",
     "Cefixime",
-    "Ofloxacin"
+    "Ciprofloxacin",
+    "Clindamycin",
+    "Erythromycin",
+    "Gentamicin",
+    "Levofloxacin",
+    "Meropenem",
+    "Ofloxacin",
+    "Penicillin",
+    "Tetracycline",
+    "Vancomycin"
   ],
   "skipped_antibiotics": [],
   "models": {
     "Amoxicillin": {
       "best_model": "XGBoost",
-      "accuracy": 0.7723,
-      "f1": 0.7716,
-      "precision": 0.7764,
-      "recall": 0.7723,
-      "train_samples": 805,
-      "test_samples": 202,
+      "accuracy": 0.902,
+      "f1": 0.9015,
+      "precision": 0.9074,
+      "recall": 0.902,
+      "train_samples": 200,
+      "test_samples": 51,
       "model_file": "model_amoxicillin.joblib",
       "scaler_file": "scaler_amoxicillin.joblib",
       "encoder_file": "encoder_amoxicillin.joblib",
@@ -23,14 +33,30 @@
         "Susceptible"
       ]
     },
+    "Ampicillin": {
+      "best_model": "XGBoost",
+      "accuracy": 0.8065,
+      "f1": 0.8065,
+      "precision": 0.8065,
+      "recall": 0.8065,
+      "train_samples": 247,
+      "test_samples": 62,
+      "model_file": "model_ampicillin.joblib",
+      "scaler_file": "scaler_ampicillin.joblib",
+      "encoder_file": "encoder_ampicillin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
     "Azithromycin": {
-      "best_model": "GradientBoosting",
-      "accuracy": 0.6885,
-      "f1": 0.686,
-      "precision": 0.6886,
-      "recall": 0.6885,
-      "train_samples": 728,
-      "test_samples": 183,
+      "best_model": "XGBoost",
+      "accuracy": 0.6792,
+      "f1": 0.6799,
+      "precision": 0.6811,
+      "recall": 0.6792,
+      "train_samples": 211,
+      "test_samples": 53,
       "model_file": "model_azithromycin.joblib",
       "scaler_file": "scaler_azithromycin.joblib",
       "encoder_file": "encoder_azithromycin.joblib",
@@ -41,12 +67,12 @@
     },
     "Cefixime": {
       "best_model": "XGBoost",
-      "accuracy": 0.7521,
-      "f1": 0.7008,
-      "precision": 0.7219,
-      "recall": 0.7521,
-      "train_samples": 483,
-      "test_samples": 121,
+      "accuracy": 0.641,
+      "f1": 0.6113,
+      "precision": 0.6137,
+      "recall": 0.641,
+      "train_samples": 154,
+      "test_samples": 39,
       "model_file": "model_cefixime.joblib",
       "scaler_file": "scaler_cefixime.joblib",
       "encoder_file": "encoder_cefixime.joblib",
@@ -55,17 +81,161 @@
         "Susceptible"
       ]
     },
-    "Ofloxacin": {
+    "Ciprofloxacin": {
+      "best_model": "RandomForest",
+      "accuracy": 0.8475,
+      "f1": 0.8472,
+      "precision": 0.8474,
+      "recall": 0.8475,
+      "train_samples": 235,
+      "test_samples": 59,
+      "model_file": "model_ciprofloxacin.joblib",
+      "scaler_file": "scaler_ciprofloxacin.joblib",
+      "encoder_file": "encoder_ciprofloxacin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Clindamycin": {
       "best_model": "LogisticRegression",
-      "accuracy": 0.6359,
-      "f1": 0.6362,
-      "precision": 0.6373,
-      "recall": 0.6359,
-      "train_samples": 777,
-      "test_samples": 195,
+      "accuracy": 0.7321,
+      "f1": 0.7324,
+      "precision": 0.7331,
+      "recall": 0.7321,
+      "train_samples": 223,
+      "test_samples": 56,
+      "model_file": "model_clindamycin.joblib",
+      "scaler_file": "scaler_clindamycin.joblib",
+      "encoder_file": "encoder_clindamycin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Erythromycin": {
+      "best_model": "LogisticRegression",
+      "accuracy": 0.6667,
+      "f1": 0.6676,
+      "precision": 0.6758,
+      "recall": 0.6667,
+      "train_samples": 216,
+      "test_samples": 54,
+      "model_file": "model_erythromycin.joblib",
+      "scaler_file": "scaler_erythromycin.joblib",
+      "encoder_file": "encoder_erythromycin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Gentamicin": {
+      "best_model": "LogisticRegression",
+      "accuracy": 0.5862,
+      "f1": 0.5822,
+      "precision": 0.5838,
+      "recall": 0.5862,
+      "train_samples": 228,
+      "test_samples": 58,
+      "model_file": "model_gentamicin.joblib",
+      "scaler_file": "scaler_gentamicin.joblib",
+      "encoder_file": "encoder_gentamicin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Levofloxacin": {
+      "best_model": "XGBoost",
+      "accuracy": 0.7241,
+      "f1": 0.7228,
+      "precision": 0.7285,
+      "recall": 0.7241,
+      "train_samples": 229,
+      "test_samples": 58,
+      "model_file": "model_levofloxacin.joblib",
+      "scaler_file": "scaler_levofloxacin.joblib",
+      "encoder_file": "encoder_levofloxacin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Meropenem": {
+      "best_model": "LogisticRegression",
+      "accuracy": 0.7273,
+      "f1": 0.7273,
+      "precision": 0.7278,
+      "recall": 0.7273,
+      "train_samples": 218,
+      "test_samples": 55,
+      "model_file": "model_meropenem.joblib",
+      "scaler_file": "scaler_meropenem.joblib",
+      "encoder_file": "encoder_meropenem.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Ofloxacin": {
+      "best_model": "RandomForest",
+      "accuracy": 0.68,
+      "f1": 0.6769,
+      "precision": 0.6827,
+      "recall": 0.68,
+      "train_samples": 199,
+      "test_samples": 50,
       "model_file": "model_ofloxacin.joblib",
       "scaler_file": "scaler_ofloxacin.joblib",
       "encoder_file": "encoder_ofloxacin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Penicillin": {
+      "best_model": "RandomForest",
+      "accuracy": 0.6607,
+      "f1": 0.6606,
+      "precision": 0.6609,
+      "recall": 0.6607,
+      "train_samples": 223,
+      "test_samples": 56,
+      "model_file": "model_penicillin.joblib",
+      "scaler_file": "scaler_penicillin.joblib",
+      "encoder_file": "encoder_penicillin.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Tetracycline": {
+      "best_model": "LogisticRegression",
+      "accuracy": 0.623,
+      "f1": 0.6227,
+      "precision": 0.6229,
+      "recall": 0.623,
+      "train_samples": 242,
+      "test_samples": 61,
+      "model_file": "model_tetracycline.joblib",
+      "scaler_file": "scaler_tetracycline.joblib",
+      "encoder_file": "encoder_tetracycline.joblib",
+      "classes": [
+        "Resistant",
+        "Susceptible"
+      ]
+    },
+    "Vancomycin": {
+      "best_model": "RandomForest",
+      "accuracy": 0.9375,
+      "f1": 0.9377,
+      "precision": 0.9453,
+      "recall": 0.9375,
+      "train_samples": 189,
+      "test_samples": 48,
+      "model_file": "model_vancomycin.joblib",
+      "scaler_file": "scaler_vancomycin.joblib",
+      "encoder_file": "encoder_vancomycin.joblib",
       "classes": [
         "Resistant",
         "Susceptible"

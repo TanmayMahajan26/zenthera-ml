@@ -75,7 +75,7 @@ const HowItWorks: React.FC = () => {
             </h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-xl text-slate-500 font-light leading-relaxed max-w-2xl mx-auto">
+            <p className="text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed max-w-2xl mx-auto">
               We translate raw genomic sequences into life-saving clinical insights in minutes. Explore the technology powering the next generation of diagnostics.
             </p>
           </Reveal>
@@ -101,7 +101,7 @@ const HowItWorks: React.FC = () => {
                       <div className="h-px bg-slate-200 flex-1" />
                     </div>
                     <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">{step.title}</h2>
-                    <p className="text-lg text-slate-500 font-light leading-relaxed">
+                    <p className="text-lg text-slate-500 dark:text-slate-400 font-light leading-relaxed">
                       {step.desc}
                     </p>
                   </div>

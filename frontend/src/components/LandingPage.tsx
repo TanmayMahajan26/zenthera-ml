@@ -96,7 +96,7 @@ const LandingPage: React.FC = () => {
               </motion.div>
 
               <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.1 }}
-                className="font-display text-6xl md:text-8xl lg:text-[6.5rem] font-bold text-slate-900 leading-[0.9] tracking-tight mb-8">
+                className="font-display text-6xl md:text-8xl lg:text-[6.5rem] font-bold text-slate-900 dark:text-white leading-[0.9] tracking-tight mb-8">
                 Predict{' '}
                 <span className="relative inline-block">
                   <span className="text-brand-orange">AMR</span>
@@ -110,7 +110,7 @@ const LandingPage: React.FC = () => {
               </motion.h1>
 
               <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
-                className="text-lg md:text-xl text-slate-500 max-w-lg mb-10 leading-relaxed font-light">
+                className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-lg mb-10 leading-relaxed font-light">
                 Accelerating antibiotic resistance prediction through high-fidelity genomic intelligence and deterministic gene scanning.
               </motion.p>
 
@@ -145,7 +145,7 @@ const LandingPage: React.FC = () => {
                   </div>
                   <div>
                     <div className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">New Alert</div>
-                    <div className="text-sm font-bold text-slate-900">MDR K. pneumoniae detected</div>
+                    <div className="text-sm font-bold text-slate-900 dark:text-white">MDR K. pneumoniae detected</div>
                   </div>
                 </div>
               </motion.div>
@@ -181,7 +181,7 @@ const LandingPage: React.FC = () => {
               <div className="relative z-10 w-[280px] md:w-[300px] mt-16">
                 <div className="bg-white dark:bg-dark-surface border border-slate-200 dark:border-dark-border rounded-2xl overflow-hidden shadow-2xl shadow-slate-200/80 dark:shadow-none">
                   {/* Window chrome */}
-                  <div className="flex items-center gap-4 px-4 py-3 border-b border-slate-100 bg-slate-50/60">
+                  <div className="flex items-center gap-4 px-4 py-3 border-b border-slate-100 dark:border-dark-border bg-slate-50/60 dark:bg-dark-bg">
                     <div className="flex gap-1.5">
                       <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
                       <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
@@ -193,7 +193,7 @@ const LandingPage: React.FC = () => {
                   <div className="p-5">
                     <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold mb-1">Pipeline Accuracy</div>
                     <div className="flex items-baseline gap-3 mb-5">
-                      <span className="text-4xl font-bold text-slate-900 font-display">98<span className="text-xl">%</span></span>
+                      <span className="text-4xl font-bold text-slate-900 dark:text-white font-display">98<span className="text-xl">%</span></span>
                       <span className="text-xs font-bold text-brand-orange bg-brand-orange/10 px-2 py-0.5 rounded-full">+12% ↑</span>
                     </div>
 
@@ -203,22 +203,22 @@ const LandingPage: React.FC = () => {
                         { code: 'CI', name: 'Ciprofloxacin', detail: 'Fluoroquinolone', score: 94, resistant: true },
                         { code: 'AM', name: 'Amikacin', detail: 'Aminoglycoside', score: 97, resistant: false },
                       ].map((row) => (
-                        <div key={row.code} className="flex items-center gap-3 bg-slate-50 rounded-xl px-3 py-2.5">
+                        <div key={row.code} className="flex items-center gap-3 bg-slate-50 dark:bg-dark-bg rounded-xl px-3 py-2.5">
                           <div className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: row.resistant ? 'rgba(248,113,113,0.12)' : 'rgba(52,211,153,0.12)', color: row.resistant ? '#ef4444' : '#10b981' }}>
                             {row.code}
                           </div>
                           <div className="flex-1">
-                            <div className="text-sm font-bold text-slate-900">{row.name}</div>
+                            <div className="text-sm font-bold text-slate-900 dark:text-white">{row.name}</div>
                             <div className="text-[10px] text-slate-400">{row.detail}</div>
                           </div>
-                          <span className="text-sm font-bold text-slate-500">{row.score}</span>
+                          <span className="text-sm font-bold text-slate-500 dark:text-slate-400">{row.score}</span>
                         </div>
                       ))}
                     </div>
 
                     <div className="mt-5 flex items-center justify-between mb-2">
                       <span className="text-[10px] text-slate-400 uppercase tracking-wider">Weekly target</span>
-                      <span className="text-xs font-bold text-slate-500">78%</span>
+                      <span className="text-xs font-bold text-slate-500 dark:text-slate-400">78%</span>
                     </div>
                     <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                       <motion.div initial={{ width: 0 }} animate={{ width: '78%' }}
@@ -290,16 +290,16 @@ const LandingPage: React.FC = () => {
             <Reveal>
               <div>
                 <div className="text-brand-orange text-xs font-bold uppercase tracking-[0.25em] mb-4">About Zenthera</div>
-                <h2 className="font-display text-5xl md:text-6xl font-bold text-slate-900 leading-tight mb-8">
+                <h2 className="font-display text-5xl md:text-6xl font-bold text-slate-900 dark:text-white leading-tight mb-8">
                   Decoding resistance.<br />
                   <span className="text-brand-orange">Saving lives.</span>
                 </h2>
-                <p className="text-lg text-slate-500 leading-relaxed mb-8 font-light">
+                <p className="text-lg text-slate-500 dark:text-slate-400 leading-relaxed mb-8 font-light">
                   Zenthera combines deterministic gene scanning with machine learning to predict antimicrobial resistance from raw genomic sequences. Our dual-layer pipeline processes FASTA files in real-time, delivering clinical-grade susceptibility profiles across 35 antibiotic classes.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   {['CARD Database', 'Mutation Detection', 'K-mer Analysis', 'Ensemble ML'].map((tag) => (
-                    <span key={tag} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs font-semibold text-slate-600 uppercase tracking-wider">{tag}</span>
+                    <span key={tag} className="px-4 py-2 bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -317,7 +317,7 @@ const LandingPage: React.FC = () => {
                       <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center">
                         <Dna className="w-4 h-4 text-white" />
                       </div>
-                      <span className="text-sm font-bold text-slate-900">Genome Analysis</span>
+                      <span className="text-sm font-bold text-slate-900 dark:text-white">Genome Analysis</span>
                     </div>
                     <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
                       <motion.div initial={{ width: 0 }} whileInView={{ width: '85%' }} transition={{ duration: 2, ease: 'easeOut' }}
@@ -335,7 +335,7 @@ const LandingPage: React.FC = () => {
       {/* ═══════════════════════════════════════════
           FEATURES GRID
           ═══════════════════════════════════════════ */}
-      <section className="relative py-32 bg-slate-50 overflow-hidden">
+      <section className="relative py-32 bg-slate-50 dark:bg-dark-surface transition-colors duration-500 overflow-hidden">
         {/* Dotted gradient — right side */}
         <div className="absolute inset-0 pointer-events-none"
           style={{
@@ -359,10 +359,10 @@ const LandingPage: React.FC = () => {
           <Reveal>
             <div className="text-center mb-20">
               <div className="text-brand-orange text-xs font-bold uppercase tracking-[0.25em] mb-4">Capabilities</div>
-              <h2 className="font-display text-5xl md:text-6xl font-bold text-slate-900 mb-6">
+              <h2 className="font-display text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
                 Built for <span className="text-brand-orange">precision</span>
               </h2>
-              <p className="text-lg text-slate-500 max-w-2xl mx-auto font-light">
+              <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-light">
                 Every component engineered for clinical-grade antimicrobial resistance prediction.
               </p>
             </div>
@@ -376,10 +376,10 @@ const LandingPage: React.FC = () => {
                     <div className="w-12 h-12 bg-brand-orange/10 rounded-2xl flex items-center justify-center group-hover:bg-brand-orange transition-colors">
                       <f.icon className="w-5 h-5 text-brand-orange group-hover:text-white transition-colors" />
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-50 px-3 py-1 rounded-full">{f.tag}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-dark-bg px-3 py-1 rounded-full">{f.tag}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{f.title}</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{f.title}</h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{f.desc}</p>
                   <div className="mt-6 flex items-center gap-1 text-brand-orange text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">
                     Explore <ChevronRight className="w-3 h-3" />
                   </div>
@@ -462,10 +462,10 @@ const LandingPage: React.FC = () => {
               <Zap className="w-3 h-3 text-brand-orange" />
               <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-orange">Ready to begin?</span>
             </div>
-            <h2 className="font-display text-5xl md:text-7xl font-bold text-slate-900 mb-8 leading-tight">
+            <h2 className="font-display text-5xl md:text-7xl font-bold text-slate-900 dark:text-white mb-8 leading-tight">
               Start predicting<br />resistance <span className="text-brand-orange">today</span>
             </h2>
-            <p className="text-xl text-slate-500 max-w-xl mx-auto mb-12 font-light leading-relaxed">
+            <p className="text-xl text-slate-500 dark:text-slate-400 max-w-xl mx-auto mb-12 font-light leading-relaxed">
               Upload your FASTA genome file and receive clinical-grade AMR predictions in under a second.
             </p>
             <button onClick={() => navigate('/dashboard')}

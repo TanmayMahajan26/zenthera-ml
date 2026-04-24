@@ -44,13 +44,13 @@ const LandingPage: React.FC = () => {
   ];
 
   return (
-    <div className="relative w-full bg-white">
+    <div className="relative w-full bg-white dark:bg-dark-bg transition-colors duration-500">
       <Navbar />
 
       {/* ═══════════════════════════════════════════
           HERO SECTION
           ═══════════════════════════════════════════ */}
-      <section ref={heroRef} className="relative min-h-screen w-full overflow-hidden bg-white">
+      <section ref={heroRef} className="relative min-h-screen w-full overflow-hidden bg-white dark:bg-dark-bg transition-colors duration-500">
         {/* ── Large orange-to-transparent gradient sweep ── */}
         <div className="absolute top-0 right-0 w-[70%] h-[80%] pointer-events-none"
           style={{ background: 'linear-gradient(220deg, rgba(241,90,36,0.10) 0%, rgba(241,90,36,0.04) 30%, transparent 60%)' }} />
@@ -139,7 +139,7 @@ const LandingPage: React.FC = () => {
               {/* ─── Floating Card: Alert (top-left) ─── */}
               <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity }}
                 className="absolute top-6 left-0 md:left-2 z-10">
-                <div className="flex items-center gap-3 bg-white border border-slate-200 rounded-2xl px-4 py-3 shadow-lg">
+                <div className="flex items-center gap-3 bg-white dark:bg-dark-surface border border-slate-200 dark:border-dark-border rounded-2xl px-4 py-3 shadow-lg">
                   <div className="w-9 h-9 bg-brand-orange/10 rounded-xl flex items-center justify-center">
                     <Zap className="w-4 h-4 text-brand-orange" />
                   </div>
@@ -153,7 +153,7 @@ const LandingPage: React.FC = () => {
               {/* ─── Floating Card: Resistance Trend (top-right) ─── */}
               <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 6, repeat: Infinity, delay: 0.5 }}
                 className="absolute top-4 right-0 md:right-2 z-10">
-                <div className="bg-white border border-slate-200 rounded-2xl px-5 py-4 shadow-lg w-[180px]">
+                <div className="bg-white dark:bg-dark-surface border border-slate-200 dark:border-dark-border rounded-2xl px-5 py-4 shadow-lg w-[180px]">
                   <div className="text-[10px] text-slate-400 uppercase tracking-wider font-medium mb-1">Resistance Rate</div>
                   <div className="flex items-baseline gap-2 mb-3">
                     <span className="text-2xl font-bold text-brand-orange font-display">+34%</span>
@@ -179,7 +179,7 @@ const LandingPage: React.FC = () => {
 
               {/* ─── Main Card: Dashboard ─── */}
               <div className="relative z-10 w-[280px] md:w-[300px] mt-16">
-                <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-2xl shadow-slate-200/80">
+                <div className="bg-white dark:bg-dark-surface border border-slate-200 dark:border-dark-border rounded-2xl overflow-hidden shadow-2xl shadow-slate-200/80 dark:shadow-none">
                   {/* Window chrome */}
                   <div className="flex items-center gap-4 px-4 py-3 border-b border-slate-100 bg-slate-50/60">
                     <div className="flex gap-1.5">
@@ -261,7 +261,7 @@ const LandingPage: React.FC = () => {
       {/* ═══════════════════════════════════════════
           ABOUT / INTRO SECTION
           ═══════════════════════════════════════════ */}
-      <section id="section-about" className="relative py-32 md:py-40 bg-white overflow-hidden">
+      <section id="section-about" className="relative py-32 md:py-40 bg-white dark:bg-dark-bg transition-colors duration-500 overflow-hidden">
         {/* Dotted gradient background */}
         <div className="absolute inset-0 pointer-events-none"
           style={{
@@ -307,12 +307,12 @@ const LandingPage: React.FC = () => {
             <Reveal delay={0.2}>
               <div className="relative">
                 <div className="absolute -inset-8 bg-gradient-to-br from-brand-orange/10 to-orange-50 rounded-[3rem] blur-2xl opacity-60" />
-                <div className="relative bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl p-10 aspect-square flex items-center justify-center overflow-hidden">
+                <div className="relative bg-white dark:bg-dark-surface rounded-[2.5rem] border border-slate-100 dark:border-dark-border shadow-2xl dark:shadow-none p-10 aspect-square flex items-center justify-center overflow-hidden">
                   <video autoPlay loop muted playsInline className="w-full h-full object-cover rounded-2xl">
                     <source src="/dnaanimation.mp4" type="video/mp4" />
                   </video>
                   <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-orange-100">
+                  <div className="absolute bottom-8 left-8 right-8 bg-white/90 dark:bg-dark-surface/90 backdrop-blur-md rounded-2xl p-5 border border-orange-100 dark:border-dark-border">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center">
                         <Dna className="w-4 h-4 text-white" />
@@ -371,7 +371,7 @@ const LandingPage: React.FC = () => {
             {features.map((f, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <motion.div whileHover={{ y: -8 }} transition={{ type: 'spring', stiffness: 300 }}
-                  className="group bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-orange-100 transition-all cursor-pointer h-full">
+                  className="group bg-white dark:bg-dark-surface p-8 rounded-3xl border border-slate-100 dark:border-dark-border shadow-sm hover:shadow-xl dark:hover:shadow-brand-orange/5 hover:border-orange-100 dark:hover:border-brand-orange/30 transition-all cursor-pointer h-full">
                   <div className="flex items-center justify-between mb-6">
                     <div className="w-12 h-12 bg-brand-orange/10 rounded-2xl flex items-center justify-center group-hover:bg-brand-orange transition-colors">
                       <f.icon className="w-5 h-5 text-brand-orange group-hover:text-white transition-colors" />
@@ -437,7 +437,7 @@ const LandingPage: React.FC = () => {
       {/* ═══════════════════════════════════════════
           CTA SECTION
           ═══════════════════════════════════════════ */}
-      <section className="relative py-32 bg-white overflow-hidden">
+      <section className="relative py-32 bg-white dark:bg-dark-bg transition-colors duration-500 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-slate-50 to-white" />
         {/* Dotted gradient — centered */}
         <div className="absolute inset-0 pointer-events-none"

@@ -43,11 +43,11 @@ const HowItWorks: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-brand-orange/20 selection:text-brand-orange">
+    <div className="min-h-screen bg-slate-50 dark:bg-dark-bg font-sans text-slate-900 dark:text-white selection:bg-brand-orange/20 selection:text-brand-orange transition-colors duration-500">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 overflow-hidden bg-white">
+      <section className="relative pt-40 pb-20 overflow-hidden bg-white dark:bg-dark-bg transition-colors duration-500">
         {/* Background Gradients */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-orange/[0.04] rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute top-[20%] left-[-10%] w-[400px] h-[400px] bg-brand-orange/[0.03] rounded-full blur-[100px] pointer-events-none" />
@@ -70,7 +70,7 @@ const HowItWorks: React.FC = () => {
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 tracking-tight text-slate-900">
+            <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 tracking-tight text-slate-900 dark:text-white">
               How <span className="text-brand-orange">Zenthera</span> works
             </h1>
           </Reveal>
@@ -83,7 +83,7 @@ const HowItWorks: React.FC = () => {
       </section>
 
       {/* Steps Section */}
-      <section className="relative py-24 bg-slate-50 overflow-hidden">
+      <section className="relative py-24 bg-slate-50 dark:bg-dark-surface transition-colors duration-500 overflow-hidden">
         {/* Orbs */}
         <div className="absolute top-[30%] left-[15%] w-[300px] h-[300px] bg-orange-200/30 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] bg-brand-orange/[0.05] rounded-full blur-[100px] pointer-events-none" />
@@ -97,10 +97,10 @@ const HowItWorks: React.FC = () => {
                   {/* Text Content */}
                   <div className="flex-1 space-y-6">
                     <div className="flex items-center gap-4">
-                      <span className="text-4xl md:text-6xl font-display font-black text-slate-200">{step.num}</span>
+                      <span className="text-4xl md:text-6xl font-display font-black text-slate-200 dark:text-dark-border">{step.num}</span>
                       <div className="h-px bg-slate-200 flex-1" />
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900">{step.title}</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">{step.title}</h2>
                     <p className="text-lg text-slate-500 font-light leading-relaxed">
                       {step.desc}
                     </p>
@@ -108,10 +108,10 @@ const HowItWorks: React.FC = () => {
 
                   {/* Graphic / Visual representation */}
                   <div className="flex-1 w-full">
-                    <div className="relative aspect-square md:aspect-[4/3] rounded-3xl bg-white border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden group">
+                    <div className="relative aspect-square md:aspect-[4/3] rounded-3xl bg-white dark:bg-dark-bg border border-slate-100 dark:border-dark-border shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden group">
                       <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-orange-50 rounded-2xl border border-orange-100 flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-lg shadow-orange-100/50">
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-orange-50 dark:bg-dark-surface rounded-2xl border border-orange-100 dark:border-dark-border flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-lg shadow-orange-100/50 dark:shadow-none">
                         {step.icon}
                       </div>
 

@@ -191,40 +191,16 @@ const Dashboard: React.FC = () => {
             <div>
               <div className="flex items-center gap-3 text-brand-orange mb-4 font-bold uppercase tracking-[0.2em] text-sm">
                 <Activity className="w-5 h-5" />
-                <span>Diagnostic Portal</span>
+                <span>Clinical Engine</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-serif italic text-slate-900 dark:text-white leading-none">
-                {activeTab === 'vigilance' ? 'Vigilance' : 'Vengeance'}
+                Analysis Dashboard
               </h1>
               <p className="mt-6 text-xl text-slate-500 dark:text-slate-400 max-w-2xl font-light">
                 {activeTab === 'vigilance' 
-                  ? 'Advanced processing engine for raw genomic data and k-mer signature extraction.' 
+                  ? 'Integrated pipeline for patient registration and AMR prediction.' 
                   : 'Actionable resistance predictions and susceptibility intelligence.'}
               </p>
-            </div>
-            
-            <div className="flex gap-4">
-               <button 
-                onClick={() => setActiveTab('vigilance')}
-                className={`px-8 py-4 rounded-full text-sm font-bold tracking-wider uppercase transition-all ${
-                  activeTab === 'vigilance' 
-                    ? 'bg-slate-900 text-white' 
-                    : 'bg-white text-slate-600 border border-slate-200 hover:border-brand-orange'
-                }`}
-              >
-                Vigilance
-              </button>
-                  <button 
-                onClick={() => setActiveTab('vengeance')}
-                disabled={results.length === 0}
-                className={`px-8 py-4 rounded-full text-sm font-bold tracking-wider uppercase transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
-                  activeTab === 'vengeance' 
-                    ? 'bg-slate-900 dark:bg-brand-orange text-white' 
-                    : 'bg-white dark:bg-dark-surface text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-dark-border hover:border-brand-orange'
-                }`}
-              >
-                Vengeance
-              </button>
             </div>
           </motion.div>
         </div>
@@ -401,8 +377,24 @@ const Dashboard: React.FC = () => {
               exit={{ opacity: 0, x: -20 }}
               className="space-y-12"
             >
-              {/* Results Overview */}
-              <div className="space-y-12 pb-24">
+              {/* Results View */}
+              <div className="space-y-8">
+                {/* Header with New Analysis Button */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Analysis Results</h2>
+                  <button 
+                    onClick={() => {
+                      setResults([]);
+                      setGenomeInfo(null);
+                      setUploadedFiles([]);
+                      setPatientForm({ name: '', age: '', gender: 'Male', contact: '', diagnosis: '', ward: 'General', status: 'Active' });
+                      setActiveTab('vigilance');
+                    }}
+                    className="px-6 py-3 bg-brand-orange text-white rounded-full text-sm font-bold tracking-wider uppercase hover:bg-[#d64e1f] transition-all shadow-lg shadow-brand-orange/20"
+                  >
+                    Start New Analysis
+                  </button>
+                </div>
                 
                 {/* Clinical Context / Disease Name */}
                 {clinicalData && (

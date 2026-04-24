@@ -1,124 +1,134 @@
 const mongoose = require('mongoose');
-const { faker } = require('@faker-js/faker');
 const Patient = require('./models/Patient');
 const Report = require('./models/Report');
+const User = require('./models/User');
 
 const MONGO_URI = "mongodb+srv://tanmay261006_1:tanmay123@cluster1.9bpvqzm.mongodb.net/zenthera?appName=Cluster1";
 
-const ORGANISMS = [
-  'Staphylococcus aureus', 'Escherichia coli', 'Klebsiella pneumoniae', 
-  'Pseudomonas aeruginosa', 'Streptococcus pneumoniae', 'Acinetobacter baumannii',
-  'Enterococcus faecalis', 'Enterobacter cloacae'
-];
+const FIRST_NAMES = ["James", "Mary", "Robert", "Patricia", "John", "Jennifer", "Michael", "Linda", "David", "Elizabeth", "William", "Barbara", "Richard", "Susan", "Joseph", "Jessica", "Thomas", "Sarah", "Charles", "Karen", "Christopher", "Lisa", "Daniel", "Nancy", "Matthew", "Betty", "Anthony", "Margaret", "Mark", "Sandra"];
+const LAST_NAMES = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson"];
 
-const ANTIBIOTICS = [
-  'Amoxicillin', 'Ampicillin', 'Azithromycin', 'Cefixime', 'Ciprofloxacin', 
-  'Clindamycin', 'Erythromycin', 'Gentamicin', 'Levofloxacin', 'Meropenem', 
-  'Ofloxacin', 'Penicillin', 'Tetracycline', 'Vancomycin'
-];
+const DIAGNOSES = ["UTI", "Pneumonia", "Sepsis", "Wound Infection", "Bacteremia", "Meningitis", "Endocarditis", "Osteomyelitis", "Cellulitis", "Pyelonephritis"];
+const ORGANISMS = ["Escherichia coli", "Staphylococcus aureus", "Klebsiella pneumoniae", "Pseudomonas aeruginosa", "Acinetobacter baumannii", "Enterococcus faecalis", "Streptococcus pneumoniae", "Proteus mirabilis"];
+const ANTIBIOTICS = ["Ciprofloxacin", "Meropenem", "Amoxicillin", "Vancomycin", "Ceftriaxone", "Azithromycin", "Gentamicin", "Levofloxacin", "Piperacillin-Tazobactam", "Linezolid", "Colistin", "Cefepime", "Doxycycline", "Erythromycin", "Ampicillin"];
 
-const WARDS = ['ICU', 'General', 'Emergency', 'Pediatrics', 'Oncology', 'Surgery', 'Outpatient'];
+function randomChoice(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 async function seedDatabase() {
   try {
-    console.log('Connecting to MongoDB Atlas...');
     await mongoose.connect(MONGO_URI);
-    console.log('Connected!');
+    console.log('Connected to MongoDB.');
 
-    // Optional: Clear existing patients and reports
-    console.log('Clearing old patient data...');
+    console.log('Wiping old data...');
     await Patient.deleteMany({});
     await Report.deleteMany({});
-    console.log('Old data cleared.');
 
-    const NUM_PATIENTS = 350;
-    const patientsToInsert = [];
-
-    console.log(`Generating ${NUM_PATIENTS} realistic patients...`);
-    
-    for (let i = 0; i < NUM_PATIENTS; i++) {
-      patientsToInsert.push({
-        name: faker.person.fullName(),
-        age: faker.number.int({ min: 1, max: 95 }),
-        gender: faker.helpers.arrayElement(['Male', 'Female']),
-        mrn: `MRN-${faker.string.alphanumeric({ length: 6, casing: 'upper' })}`,
-        ward: faker.helpers.arrayElement(WARDS),
-        diagnosis: faker.helpers.arrayElement([
-          'Pneumonia', 'Sepsis', 'Urinary Tract Infection', 'Wound Infection', 
-          'Bacteremia', 'Cellulitis', 'Endocarditis', 'Osteomyelitis'
-        ]),
-        status: faker.helpers.arrayElement(['Critical', 'Active', 'Discharged']),
-        createdAt: faker.date.past({ years: 0.5 }) // past 6 months
-      });
+    // Get an admin/doctor user to assign to
+    let user = await User.findOne({});
+    if (!user) {
+      console.log('No user found in DB. Creating a dummy user for data attribution.');
+      user = await User.create({ name: 'System Admin', email: 'admin@zenthera.com', password: 'password', role: 'admin' });
     }
 
-    const insertedPatients = await Patient.insertMany(patientsToInsert);
+    const patientsToCreate = 350;
+    const patients = [];
+    const reports = [];
+
+    console.log(`Generating ${patientsToCreate} patients...`);
+    
+    // Distribute creation dates over the last 6 months
+    const now = new Date();
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(now.getMonth() - 6);
+
+    for (let i = 0; i < patientsToCreate; i++) {
+      const createdAt = new Date(sixMonthsAgo.getTime() + Math.random() * (now.getTime() - sixMonthsAgo.getTime()));
+      
+      const patient = {
+        name: `${randomChoice(FIRST_NAMES)} ${randomChoice(LAST_NAMES)}`,
+        age: randomNumber(18, 85),
+        gender: randomChoice(["Male", "Female"]),
+        contact: `+1 ${randomNumber(200, 999)}-${randomNumber(200, 999)}-${randomNumber(1000, 9999)}`,
+        diagnosis: randomChoice(DIAGNOSES),
+        ward: randomChoice(["General", "ICU", "Pediatric", "Oncology"]),
+        status: randomChoice(["Active", "Active", "Discharged", "Critical"]),
+        addedBy: user._id,
+        createdAt: createdAt,
+        updatedAt: createdAt
+      };
+      patients.push(patient);
+    }
+
+    const insertedPatients = await Patient.insertMany(patients);
     console.log(`Inserted ${insertedPatients.length} patients.`);
 
-    console.log('Generating clinical reports for patients...');
-    const reportsToInsert = [];
-
-    // Give most patients 1 report, some 2 or 3
+    console.log('Generating reports for patients...');
     for (const patient of insertedPatients) {
-      const numReports = faker.number.int({ min: 1, max: 3 });
+      // 80% chance of having 1 report, 20% chance of having 2 reports
+      const numReports = Math.random() < 0.8 ? 1 : 2;
       
       for (let r = 0; r < numReports; r++) {
-        // Randomly determine if this report has high resistance
-        const isHighlyResistant = faker.datatype.boolean(0.3); // 30% chance
+        // Report date should be after patient creation date
+        const reportDate = new Date(patient.createdAt.getTime() + Math.random() * (now.getTime() - patient.createdAt.getTime()));
+        
+        const numPredictions = randomNumber(4, 10);
         const predictions = [];
-        let resCount = 0;
-        let susCount = 0;
+        let totalResistant = 0;
+        let totalSusceptible = 0;
 
-        for (const ab of ANTIBIOTICS) {
-          // Generate realistic phenotype probability
-          let isResistant = false;
-          if (isHighlyResistant) {
-            isResistant = faker.datatype.boolean(0.7);
-          } else {
-            isResistant = faker.datatype.boolean(0.2);
-          }
-          
-          if (isResistant) resCount++;
-          else susCount++;
+        // Ensure unique antibiotics per report
+        const shuffledAntibiotics = [...ANTIBIOTICS].sort(() => 0.5 - Math.random());
+        
+        for (let p = 0; p < numPredictions; p++) {
+          const phenotype = Math.random() < 0.35 ? "Resistant" : "Susceptible"; // 35% chance of resistance
+          if (phenotype === "Resistant") totalResistant++;
+          else totalSusceptible++;
 
           predictions.push({
-            antibiotic: ab,
-            phenotype: isResistant ? 'Resistant' : 'Susceptible',
-            confidence: faker.number.float({ min: 65, max: 99, fractionDigits: 1 }),
-            model: 'XGBoost',
-            confidence_tier: faker.helpers.arrayElement(['High', 'High', 'Medium', 'Low'])
+            antibiotic: shuffledAntibiotics[p],
+            phenotype: phenotype,
+            confidence: (Math.random() * 0.4 + 0.6).toFixed(4), // 0.60 to 0.99
+            model: randomChoice(["XGBoost", "RandomForest", "LogisticRegression"]),
+            confidence_tier: randomChoice(["High", "High", "Medium"])
           });
         }
 
-        // Figure out recommended drug (pick a susceptible one)
-        const susceptibleDrugs = predictions.filter(p => p.phenotype === 'Susceptible');
-        const recommendedDrug = susceptibleDrugs.length > 0 
-          ? faker.helpers.arrayElement(susceptibleDrugs).antibiotic 
-          : 'Combination Therapy Required';
+        const organism = randomChoice(ORGANISMS);
+        
+        // Pick a recommended drug that is Susceptible
+        const susceptiblePreds = predictions.filter(p => p.phenotype === 'Susceptible');
+        const recommendedDrug = susceptiblePreds.length > 0 ? randomChoice(susceptiblePreds).antibiotic : "None (All Resistant)";
 
-        reportsToInsert.push({
+        reports.push({
           patient: patient._id,
-          fileName: `sample_${faker.string.alphanumeric(6)}.fasta`,
-          organism: faker.helpers.arrayElement(ORGANISMS),
-          seqLength: faker.number.int({ min: 2500000, max: 5500000 }), // 2.5 - 5.5 Mbps
-          gcContent: faker.number.float({ min: 32, max: 68, fractionDigits: 2 }),
+          fileName: `isolate_${randomNumber(10000, 99999)}.fasta`,
+          organism: organism,
+          seqLength: randomNumber(3000000, 5500000),
+          gcContent: (Math.random() * 20 + 40).toFixed(2), // 40-60%
           predictions: predictions,
-          totalResistant: resCount,
-          totalSusceptible: susCount,
+          totalResistant: totalResistant,
+          totalSusceptible: totalSusceptible,
           recommendedDrug: recommendedDrug,
-          createdAt: faker.date.between({ from: patient.createdAt, to: new Date() })
+          analyzedBy: user._id,
+          createdAt: reportDate,
+          updatedAt: reportDate
         });
       }
     }
 
-    await Report.insertMany(reportsToInsert);
-    console.log(`Inserted ${reportsToInsert.length} clinical reports.`);
+    const insertedReports = await Report.insertMany(reports);
+    console.log(`Inserted ${insertedReports.length} reports.`);
 
-    console.log('✅ Database seeding complete! Analytics graphs will now look amazing.');
+    console.log('Seed completed successfully!');
     process.exit(0);
-
-  } catch (err) {
-    console.error('Error seeding database:', err);
+  } catch (error) {
+    console.error('Error seeding database:', error);
     process.exit(1);
   }
 }

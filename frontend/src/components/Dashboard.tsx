@@ -145,6 +145,11 @@ const Dashboard: React.FC = () => {
       setIsAnalyzing(false);
       setTimeout(() => setActiveTab('vengeance'), 800);
 
+      // Auto-save the report
+      if (selectedPatient) {
+        saveReportAutomated(selectedPatient, file.name, apiResult);
+      }
+
     } catch (err: any) {
       setError(err.message || 'Analysis failed. Please ensure the backend is running.');
       setUploadedFiles(prev => prev.map(f => 
@@ -154,32 +159,42 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleSaveReport = async () => {
-    if (!selectedPatient || !genomeInfo || results.length === 0) return;
+  const saveReportAutomated = async (patientId: string, fileName: string, apiResult: any) => {
     setIsSaving(true);
     try {
+      const dashboardResults: DashboardResult[] = apiResult.predictions
+        .filter((p: any) => p.phenotype !== 'Insufficient Data')
+        .map((p: any, idx: number) => ({
+          antibiotic: p.antibiotic,
+          prediction: p.phenotype,
+          confidence: p.confidence,
+          model: p.model,
+          confidence_tier: p.confidence_tier,
+          mechanism: p.det_found ? p.det_type : undefined
+        }));
+
       const payload = {
-        patient: selectedPatient,
-        fileName: uploadedFiles[0]?.name || 'unknown.fasta',
-        organism: genomeInfo.matched_genus || 'Unknown',
-        seqLength: genomeInfo.seq_length,
-        gcContent: genomeInfo.gc_pct,
-        predictions: results.map(r => ({
+        patient: patientId,
+        fileName: fileName,
+        organism: apiResult.genome.matched_genus || 'Unknown',
+        seqLength: apiResult.genome.seq_length,
+        gcContent: apiResult.genome.gc_pct,
+        predictions: dashboardResults.map(r => ({
           antibiotic: r.antibiotic,
           phenotype: r.prediction,
           confidence: r.confidence,
           model: r.model,
           confidence_tier: r.confidence_tier
         })),
-        totalResistant: results.filter(r => r.prediction === 'Resistant').length,
-        totalSusceptible: results.filter(r => r.prediction === 'Susceptible').length,
-        recommendedDrug: recommendations?.recommendation?.split('(')[0]?.trim() || ''
+        totalResistant: dashboardResults.filter(r => r.prediction === 'Resistant').length,
+        totalSusceptible: dashboardResults.filter(r => r.prediction === 'Susceptible').length,
+        recommendedDrug: apiResult.recommendation?.first_line?.[0]?.antibiotic || 'Unknown'
       };
       await backendApi.post('/api/reports', payload, { headers: getAuthHeaders() });
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err: any) {
-      setError(err.message || 'Failed to save report.');
+      console.error('Failed to auto-save report:', err);
     } finally {
       setIsSaving(false);
     }
@@ -252,6 +267,25 @@ const Dashboard: React.FC = () => {
             >
               {/* Upload Zone */}
               <div className="lg:col-span-2 space-y-8">
+                {/* Patient Selection First */}
+                <div className="bg-white dark:bg-dark-surface p-8 rounded-[2.5rem] border border-slate-100 dark:border-dark-border shadow-sm flex flex-col md:flex-row items-center gap-6">
+                  <div className="w-16 h-16 bg-brand-orange/10 text-brand-orange rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Activity className="w-8 h-8" />
+                  </div>
+                  <div className="flex-1 w-full">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Select Patient</h3>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm mb-4">Required before uploading genomic data.</p>
+                    <select 
+                      value={selectedPatient}
+                      onChange={e => setSelectedPatient(e.target.value)}
+                      className="w-full px-4 py-3 bg-slate-50 dark:bg-dark-bg border border-slate-100 dark:border-dark-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-orange/20 dark:text-white"
+                    >
+                      <option value="">-- Choose a Patient --</option>
+                      {patients.map(p => <option key={p._id} value={p._id}>{p.name} ({p.diagnosis || 'No Diagnosis'})</option>)}
+                    </select>
+                  </div>
+                </div>
+
                 {error && (
                   <div className="bg-red-50 border border-red-100 p-6 rounded-[2rem] flex items-center gap-4 text-red-600">
                     <ShieldAlert className="w-6 h-6 flex-shrink-0" />
@@ -262,29 +296,35 @@ const Dashboard: React.FC = () => {
                   </div>
                 )}
                 <div 
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
+                  onDragOver={selectedPatient ? handleDragOver : undefined}
+                  onDragLeave={selectedPatient ? handleDragLeave : undefined}
+                  onDrop={selectedPatient ? handleDrop : undefined}
                   className={`relative aspect-[16/9] lg:aspect-auto lg:h-[400px] rounded-[40px] border-2 border-dashed transition-all duration-500 flex flex-col items-center justify-center p-12 overflow-hidden ${
-                    isDragging 
-                      ? 'border-brand-orange bg-brand-orange/5 scale-[1.01]' 
-                      : 'border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface/50 hover:bg-slate-50 dark:hover:bg-dark-surface hover:border-brand-orange/50'
+                    !selectedPatient 
+                      ? 'border-slate-100 dark:border-dark-border/50 bg-slate-50/20 dark:bg-dark-surface/20 opacity-50 cursor-not-allowed'
+                      : isDragging 
+                        ? 'border-brand-orange bg-brand-orange/5 scale-[1.01]' 
+                        : 'border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface/50 hover:bg-slate-50 dark:hover:bg-dark-surface hover:border-brand-orange/50 cursor-pointer'
                   }`}
                 >
                   <input 
                     type="file" 
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0])}
-                    disabled={isAnalyzing}
+                    className={`absolute inset-0 w-full h-full opacity-0 ${selectedPatient ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                    onChange={(e) => selectedPatient && e.target.files?.[0] && handleFileUpload(e.target.files[0])}
+                    disabled={!selectedPatient || isAnalyzing}
                   />
                   
                   <div className="w-20 h-20 bg-white dark:bg-dark-bg rounded-3xl shadow-xl flex items-center justify-center mb-8">
-                    <Upload className={`w-8 h-8 transition-colors ${isDragging ? 'text-brand-orange' : 'text-slate-400'}`} />
+                    <Upload className={`w-8 h-8 transition-colors ${!selectedPatient ? 'text-slate-200' : isDragging ? 'text-brand-orange' : 'text-slate-400'}`} />
                   </div>
                   
                   <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Drop Sequence Data</h3>
                   <p className="text-slate-500 text-center max-w-sm mb-8">
-                    Select <span className="text-brand-orange font-mono">.fasta</span>, <span className="text-brand-orange font-mono">.fna</span>, or <span className="text-brand-orange font-mono">.fa</span> genomic files for analysis.
+                    {selectedPatient ? (
+                      <>Select <span className="text-brand-orange font-mono">.fasta</span>, <span className="text-brand-orange font-mono">.fna</span>, or <span className="text-brand-orange font-mono">.fa</span> genomic files for analysis.</>
+                    ) : (
+                      <span className="text-red-500/80 font-bold">Please select a patient first</span>
+                    )}
                   </p>
                   
                   <div className="px-8 py-3 bg-slate-900 text-white rounded-full text-xs font-bold tracking-widest uppercase">
@@ -407,30 +447,10 @@ const Dashboard: React.FC = () => {
                   <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 px-6">
                     <div className="flex items-center gap-4">
                       <h3 className="text-3xl font-serif italic text-slate-900 dark:text-white">Resistance Profile</h3>
-                      {isAuthenticated && (
-                        <div className="flex items-center gap-2 bg-slate-50 dark:bg-dark-surface p-1.5 rounded-full border border-slate-100 dark:border-dark-border">
-                          <select 
-                            value={selectedPatient}
-                            onChange={e => setSelectedPatient(e.target.value)}
-                            className="bg-transparent text-xs font-bold text-slate-600 dark:text-slate-300 focus:outline-none pl-3 pr-2 py-1 max-w-[150px] truncate"
-                          >
-                            <option value="">Select Patient</option>
-                            {patients.map(p => <option key={p._id} value={p._id}>{p.name}</option>)}
-                          </select>
-                          <button
-                            onClick={handleSaveReport}
-                            disabled={!selectedPatient || isSaving || saveSuccess}
-                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${
-                              saveSuccess 
-                                ? 'bg-green-500 text-white' 
-                                : selectedPatient 
-                                  ? 'bg-brand-orange hover:bg-[#d64e1f] text-white' 
-                                  : 'bg-slate-200 dark:bg-dark-border text-slate-400 cursor-not-allowed'
-                            }`}
-                          >
-                            {saveSuccess ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Save className="w-3.5 h-3.5" />}
-                            {saveSuccess ? 'Saved' : isSaving ? 'Saving...' : 'Save'}
-                          </button>
+                      {saveSuccess && (
+                        <div className="flex items-center gap-2 bg-green-50 text-green-600 px-4 py-1.5 rounded-full border border-green-200">
+                          <CheckCircle2 className="w-4 h-4" />
+                          <span className="text-xs font-bold uppercase tracking-widest">Report Auto-Saved</span>
                         </div>
                       )}
                     </div>

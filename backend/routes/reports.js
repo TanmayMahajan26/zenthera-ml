@@ -6,7 +6,10 @@ const router = express.Router();
 // GET /api/reports
 router.get('/', auth, async (req, res) => {
   try {
-    const reports = await Report.find()
+    const query = {};
+    if (req.query.patient) query.patient = req.query.patient;
+    
+    const reports = await Report.find(query)
       .populate('patient', 'name age gender')
       .populate('analyzedBy', 'name')
       .sort({ createdAt: -1 })

@@ -37,9 +37,10 @@ app.get('/api/health', (req, res) => {
 });
 
 // Proxy ML requests to Flask backend running on port 5000 internally
-app.use('/api/predict', createProxyMiddleware({ 
-  target: 'http://127.0.0.1:5000', 
-  changeOrigin: true 
+app.use(createProxyMiddleware({
+  target: 'http://127.0.0.1:5000',
+  changeOrigin: true,
+  pathFilter: '/api/predict'
 }));
 
 // Serve React static files

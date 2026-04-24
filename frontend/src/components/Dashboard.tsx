@@ -10,7 +10,6 @@ import {
   ShieldAlert, 
   Info,
   Target,
-  Save,
   CheckCircle2
 } from 'lucide-react';
 import Navbar from './Navbar';
@@ -164,7 +163,7 @@ const Dashboard: React.FC = () => {
     try {
       const dashboardResults: DashboardResult[] = apiResult.predictions
         .filter((p: any) => p.phenotype !== 'Insufficient Data')
-        .map((p: any, idx: number) => ({
+        .map((p: any) => ({
           antibiotic: p.antibiotic,
           prediction: p.phenotype,
           confidence: p.confidence,

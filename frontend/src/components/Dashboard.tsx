@@ -57,18 +57,14 @@ const Dashboard: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'resistant' | 'susceptible'>('all');
 
   const { isAuthenticated } = useAuth();
-  const [patients, setPatients] = useState<any[]>([]);
-  const [selectedPatient, setSelectedPatient] = useState<string>('');
-
   const [saveSuccess, setSaveSuccess] = useState(false);
 
-  React.useEffect(() => {
-    if (isAuthenticated) {
-      backendApi.get('/api/patients', { headers: getAuthHeaders() })
-        .then(res => setPatients(res.data))
-        .catch(() => {});
-    }
-  }, [isAuthenticated]);
+  // Inline patient form
+  const [patientForm, setPatientForm] = useState({
+    name: '', age: '', gender: 'Male', contact: '', diagnosis: '', ward: 'General', status: 'Active'
+  });
+
+  const isPatientFormValid = patientForm.name.trim() !== '' && patientForm.age.trim() !== '';
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -83,17 +79,19 @@ const Dashboard: React.FC = () => {
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    
-    const files = Array.from(e.dataTransfer.files).filter(f => 
+    const files = Array.from(e.dataTransfer.files).filter(f =>
       f.name.endsWith('.fasta') || f.name.endsWith('.fna') || f.name.endsWith('.fa')
     );
-    
     if (files.length > 0) {
       handleFileUpload(files[0]);
     }
-  }, []);
+  }, [isPatientFormValid]);
 
   const handleFileUpload = async (file: File) => {
+    if (!isPatientFormValid) {
+      setError('Please fill in patient Name and Age before uploading.');
+      return;
+    }
     setError(null);
     const newFile: UploadedFile = {
       id: Math.random().toString(36).substr(2, 9),
@@ -102,14 +100,12 @@ const Dashboard: React.FC = () => {
       status: 'uploading',
       progress: 0
     };
-    
     setUploadedFiles([newFile]);
-    
-    // Simulate initial upload progress
+
     let progress = 0;
     const interval = setInterval(() => {
       progress += 20;
-      setUploadedFiles(prev => prev.map(f => 
+      setUploadedFiles(prev => prev.map(f =>
         f.id === newFile.id ? { ...f, progress: Math.min(progress, 90) } : f
       ));
       if (progress >= 90) clearInterval(interval);
@@ -117,14 +113,20 @@ const Dashboard: React.FC = () => {
 
     try {
       setIsAnalyzing(true);
+
+      // Step 1: Create the patient
+      const patientPayload = { ...patientForm, age: Number(patientForm.age) };
+      const patientRes = await backendApi.post('/api/patients', patientPayload, { headers: getAuthHeaders() });
+      const newPatientId = patientRes.data._id;
+
+      // Step 2: Upload FASTA and get ML predictions
       const apiResult = await uploadGenome(file);
-      
-      setUploadedFiles(prev => prev.map(f => 
+
+      setUploadedFiles(prev => prev.map(f =>
         f.id === newFile.id ? { ...f, status: 'complete', progress: 100 } : f
       ));
-
       setGenomeInfo(apiResult.genome);
-      
+
       const dashboardResults: DashboardResult[] = apiResult.predictions
         .filter((p: any) => p.phenotype !== 'Insufficient Data')
         .map((p: any, idx: number) => ({
@@ -140,41 +142,13 @@ const Dashboard: React.FC = () => {
       setResults(dashboardResults);
       setClinicalData(apiResult.clinical);
       setRecommendations(apiResult.recommendation);
-      
       setIsAnalyzing(false);
       setTimeout(() => setActiveTab('vengeance'), 800);
 
-      // Auto-save the report
-      if (selectedPatient) {
-        saveReportAutomated(selectedPatient, file.name, apiResult);
-      }
-
-    } catch (err: any) {
-      setError(err.message || 'Analysis failed. Please ensure the backend is running.');
-      setUploadedFiles(prev => prev.map(f => 
-        f.id === newFile.id ? { ...f, status: 'error' } : f
-      ));
-      setIsAnalyzing(false);
-    }
-  };
-
-  const saveReportAutomated = async (patientId: string, fileName: string, apiResult: any) => {
-
-    try {
-      const dashboardResults: DashboardResult[] = apiResult.predictions
-        .filter((p: any) => p.phenotype !== 'Insufficient Data')
-        .map((p: any) => ({
-          antibiotic: p.antibiotic,
-          prediction: p.phenotype,
-          confidence: p.confidence,
-          model: p.model,
-          confidence_tier: p.confidence_tier,
-          mechanism: p.det_found ? p.det_type : undefined
-        }));
-
-      const payload = {
-        patient: patientId,
-        fileName: fileName,
+      // Step 3: Auto-save report linked to the new patient
+      const reportPayload = {
+        patient: newPatientId,
+        fileName: file.name,
         organism: apiResult.genome.matched_genus || 'Unknown',
         seqLength: apiResult.genome.seq_length,
         gcContent: apiResult.genome.gc_pct,
@@ -189,13 +163,16 @@ const Dashboard: React.FC = () => {
         totalSusceptible: dashboardResults.filter(r => r.prediction === 'Susceptible').length,
         recommendedDrug: apiResult.recommendation?.first_line?.[0]?.antibiotic || 'Unknown'
       };
-      await backendApi.post('/api/reports', payload, { headers: getAuthHeaders() });
+      await backendApi.post('/api/reports', reportPayload, { headers: getAuthHeaders() });
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
+
     } catch (err: any) {
-      console.error('Failed to auto-save report:', err);
-    } finally {
-      /* auto-save complete */
+      setError(err.message || 'Analysis failed.');
+      setUploadedFiles(prev => prev.map(f =>
+        f.id === newFile.id ? { ...f, status: 'error' } : f
+      ));
+      setIsAnalyzing(false);
     }
   };
 
@@ -266,22 +243,45 @@ const Dashboard: React.FC = () => {
             >
               {/* Upload Zone */}
               <div className="lg:col-span-2 space-y-8">
-                {/* Patient Selection First */}
-                <div className="bg-white dark:bg-dark-surface p-8 rounded-[2.5rem] border border-slate-100 dark:border-dark-border shadow-sm flex flex-col md:flex-row items-center gap-6">
-                  <div className="w-16 h-16 bg-brand-orange/10 text-brand-orange rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <Activity className="w-8 h-8" />
+                {/* Patient Details Form */}
+                <div className="bg-white dark:bg-dark-surface p-8 rounded-[2.5rem] border border-slate-100 dark:border-dark-border shadow-sm">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1 flex items-center gap-3">
+                    <Activity className="w-5 h-5 text-brand-orange" /> Patient Information
+                  </h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">Fill in patient details before uploading genomic data.</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[
+                      { label: 'Patient Name *', key: 'name', type: 'text', placeholder: 'John Doe' },
+                      { label: 'Age *', key: 'age', type: 'number', placeholder: '45' },
+                      { label: 'Contact', key: 'contact', type: 'text', placeholder: '+91 98765 43210' },
+                      { label: 'Diagnosis', key: 'diagnosis', type: 'text', placeholder: 'Suspected UTI' },
+                    ].map(f => (
+                      <div key={f.key}>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1.5 block">{f.label}</label>
+                        <input type={f.type} value={(patientForm as any)[f.key]} onChange={e => setPatientForm({ ...patientForm, [f.key]: e.target.value })} placeholder={f.placeholder}
+                          className="w-full px-4 py-3 bg-slate-50 dark:bg-dark-bg border border-slate-100 dark:border-dark-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange font-medium dark:text-white" />
+                      </div>
+                    ))}
                   </div>
-                  <div className="flex-1 w-full">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Select Patient</h3>
-                    <p className="text-slate-500 dark:text-slate-400 text-sm mb-4">Required before uploading genomic data.</p>
-                    <select 
-                      value={selectedPatient}
-                      onChange={e => setSelectedPatient(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 dark:bg-dark-bg border border-slate-100 dark:border-dark-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-orange/20 dark:text-white"
-                    >
-                      <option value="">-- Choose a Patient --</option>
-                      {patients.map(p => <option key={p._id} value={p._id}>{p.name} ({p.diagnosis || 'No Diagnosis'})</option>)}
-                    </select>
+                  <div className="grid grid-cols-3 gap-4 mt-4">
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1.5 block">Gender</label>
+                      <select value={patientForm.gender} onChange={e => setPatientForm({ ...patientForm, gender: e.target.value })} className="w-full px-4 py-3 bg-slate-50 dark:bg-dark-bg border border-slate-100 dark:border-dark-border rounded-xl text-sm font-medium dark:text-white">
+                        <option>Male</option><option>Female</option><option>Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1.5 block">Ward</label>
+                      <select value={patientForm.ward} onChange={e => setPatientForm({ ...patientForm, ward: e.target.value })} className="w-full px-4 py-3 bg-slate-50 dark:bg-dark-bg border border-slate-100 dark:border-dark-border rounded-xl text-sm font-medium dark:text-white">
+                        <option>General</option><option>ICU</option><option>Pediatric</option><option>Oncology</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1.5 block">Status</label>
+                      <select value={patientForm.status} onChange={e => setPatientForm({ ...patientForm, status: e.target.value })} className="w-full px-4 py-3 bg-slate-50 dark:bg-dark-bg border border-slate-100 dark:border-dark-border rounded-xl text-sm font-medium dark:text-white">
+                        <option>Active</option><option>Critical</option><option>Discharged</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
 
@@ -295,11 +295,11 @@ const Dashboard: React.FC = () => {
                   </div>
                 )}
                 <div 
-                  onDragOver={selectedPatient ? handleDragOver : undefined}
-                  onDragLeave={selectedPatient ? handleDragLeave : undefined}
-                  onDrop={selectedPatient ? handleDrop : undefined}
-                  className={`relative aspect-[16/9] lg:aspect-auto lg:h-[400px] rounded-[40px] border-2 border-dashed transition-all duration-500 flex flex-col items-center justify-center p-12 overflow-hidden ${
-                    !selectedPatient 
+                  onDragOver={isPatientFormValid ? handleDragOver : undefined}
+                  onDragLeave={isPatientFormValid ? handleDragLeave : undefined}
+                  onDrop={isPatientFormValid ? handleDrop : undefined}
+                  className={`relative aspect-[16/9] lg:aspect-auto lg:h-[320px] rounded-[40px] border-2 border-dashed transition-all duration-500 flex flex-col items-center justify-center p-12 overflow-hidden ${
+                    !isPatientFormValid 
                       ? 'border-slate-100 dark:border-dark-border/50 bg-slate-50/20 dark:bg-dark-surface/20 opacity-50 cursor-not-allowed'
                       : isDragging 
                         ? 'border-brand-orange bg-brand-orange/5 scale-[1.01]' 
@@ -308,21 +308,21 @@ const Dashboard: React.FC = () => {
                 >
                   <input 
                     type="file" 
-                    className={`absolute inset-0 w-full h-full opacity-0 ${selectedPatient ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-                    onChange={(e) => selectedPatient && e.target.files?.[0] && handleFileUpload(e.target.files[0])}
-                    disabled={!selectedPatient || isAnalyzing}
+                    className={`absolute inset-0 w-full h-full opacity-0 ${isPatientFormValid ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                    onChange={(e) => isPatientFormValid && e.target.files?.[0] && handleFileUpload(e.target.files[0])}
+                    disabled={!isPatientFormValid || isAnalyzing}
                   />
                   
-                  <div className="w-20 h-20 bg-white dark:bg-dark-bg rounded-3xl shadow-xl flex items-center justify-center mb-8">
-                    <Upload className={`w-8 h-8 transition-colors ${!selectedPatient ? 'text-slate-200' : isDragging ? 'text-brand-orange' : 'text-slate-400'}`} />
+                  <div className="w-16 h-16 bg-white dark:bg-dark-bg rounded-3xl shadow-xl flex items-center justify-center mb-6">
+                    <Upload className={`w-7 h-7 transition-colors ${!isPatientFormValid ? 'text-slate-200' : isDragging ? 'text-brand-orange' : 'text-slate-400'}`} />
                   </div>
                   
-                  <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Drop Sequence Data</h3>
-                  <p className="text-slate-500 text-center max-w-sm mb-8">
-                    {selectedPatient ? (
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Drop Sequence Data</h3>
+                  <p className="text-slate-500 text-center max-w-sm mb-6">
+                    {isPatientFormValid ? (
                       <>Select <span className="text-brand-orange font-mono">.fasta</span>, <span className="text-brand-orange font-mono">.fna</span>, or <span className="text-brand-orange font-mono">.fa</span> genomic files for analysis.</>
                     ) : (
-                      <span className="text-red-500/80 font-bold">Please select a patient first</span>
+                      <span className="text-red-500/80 font-bold">Please fill in patient Name and Age first</span>
                     )}
                   </p>
                   

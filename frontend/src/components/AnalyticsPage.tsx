@@ -39,7 +39,6 @@ const AnalyticsPage: React.FC = () => {
               <BarChart3 className="w-5 h-5" /><span>Intelligence Hub</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-serif italic text-slate-900 dark:text-white leading-none">Analytics</h1>
-            <p className="mt-6 text-xl text-slate-500 dark:text-slate-400 max-w-2xl font-light">Real-time insights from MongoDB aggregation pipelines.</p>
           </motion.div>
         </div>
       </header>

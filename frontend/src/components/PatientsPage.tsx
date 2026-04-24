@@ -104,7 +104,6 @@ const PatientsPage: React.FC = () => {
                 <Users className="w-5 h-5" /><span>Patient Records</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-serif italic text-slate-900 dark:text-white leading-none">Patients</h1>
-              <p className="mt-6 text-xl text-slate-500 dark:text-slate-400 max-w-2xl font-light">Manage patient data, track diagnoses, and link AMR reports.</p>
             </div>
             <div className="flex gap-4">
               <button onClick={() => { setShowModal(true); setEditingId(null); setForm({ name: '', age: '', gender: 'Male', contact: '', diagnosis: '', ward: 'General', status: 'Active' }); }}

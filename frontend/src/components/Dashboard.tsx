@@ -196,11 +196,6 @@ const Dashboard: React.FC = () => {
               <h1 className="text-5xl md:text-7xl font-serif italic text-slate-900 dark:text-white leading-none">
                 Analysis Dashboard
               </h1>
-              <p className="mt-6 text-xl text-slate-500 dark:text-slate-400 max-w-2xl font-light">
-                {activeTab === 'vigilance' 
-                  ? 'Integrated pipeline for patient registration and AMR prediction.' 
-                  : 'Actionable resistance predictions and susceptibility intelligence.'}
-              </p>
             </div>
           </motion.div>
         </div>

@@ -52,7 +52,6 @@ const ReportsPage: React.FC = () => {
               <FileText className="w-5 h-5" /><span>Analysis Archive</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-serif italic text-slate-900 dark:text-white leading-none">Reports</h1>
-            <p className="mt-6 text-xl text-slate-500 dark:text-slate-400 max-w-2xl font-light">Historical genomic analyses and antimicrobial resistance profiles.</p>
           </motion.div>
         </div>
       </header>

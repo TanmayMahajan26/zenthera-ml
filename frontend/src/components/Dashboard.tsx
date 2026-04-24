@@ -59,7 +59,7 @@ const Dashboard: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const [patients, setPatients] = useState<any[]>([]);
   const [selectedPatient, setSelectedPatient] = useState<string>('');
-  const [isSaving, setIsSaving] = useState(false);
+
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   React.useEffect(() => {
@@ -159,7 +159,7 @@ const Dashboard: React.FC = () => {
   };
 
   const saveReportAutomated = async (patientId: string, fileName: string, apiResult: any) => {
-    setIsSaving(true);
+
     try {
       const dashboardResults: DashboardResult[] = apiResult.predictions
         .filter((p: any) => p.phenotype !== 'Insufficient Data')
@@ -195,7 +195,7 @@ const Dashboard: React.FC = () => {
     } catch (err: any) {
       console.error('Failed to auto-save report:', err);
     } finally {
-      setIsSaving(false);
+      /* auto-save complete */
     }
   };
 

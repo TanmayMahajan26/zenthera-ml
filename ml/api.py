@@ -232,5 +232,6 @@ def serve_frontend(path):
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    # Force Flask to run on port 5000 internally, ignoring Render's $PORT env var
+    # which is reserved for the Node.js master server.
+    app.run(host="127.0.0.1", port=5000, debug=False)

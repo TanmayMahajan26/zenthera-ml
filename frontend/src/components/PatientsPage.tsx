@@ -18,7 +18,7 @@ interface Patient {
 }
 
 const PatientsPage: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
   const [patients, setPatients] = useState<Patient[]>([]);
   const [search, setSearch] = useState('');
@@ -32,9 +32,10 @@ const PatientsPage: React.FC = () => {
   const [loadingReports, setLoadingReports] = useState(false);
 
   useEffect(() => {
+    if (loading) return;
     if (!isAuthenticated) { navigate('/auth'); return; }
     fetchPatients();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, loading]);
 
   const fetchPatients = async () => {
     try {

@@ -15,6 +15,7 @@ interface AuthContextType {
   register: (name: string, email: string, password: string, role: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -24,6 +25,7 @@ const BACKEND_URL = import.meta.env.PROD ? '' : 'http://localhost:4000';
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(localStorage.getItem('zenthera_token'));
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (token) {
@@ -31,7 +33,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         headers: { Authorization: `Bearer ${token}` },
       })
         .then(res => setUser(res.data))
-        .catch(() => { setToken(null); localStorage.removeItem('zenthera_token'); });
+        .catch(() => { setToken(null); localStorage.removeItem('zenthera_token'); })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
   }, [token]);
 
@@ -56,7 +61,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, register, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, token, login, register, logout, isAuthenticated: !!user, loading }}>
       {children}
     </AuthContext.Provider>
   );

@@ -9,16 +9,17 @@ import { useNavigate } from 'react-router-dom';
 const COLORS = ['#F15A24', '#FF7A45', '#ef4444', '#f59e0b', '#10b981', '#6366f1'];
 
 const AnalyticsPage: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
+    if (loading) return;
     if (!isAuthenticated) { navigate('/auth'); return; }
     backendApi.get('/api/analytics', { headers: getAuthHeaders() })
       .then(res => setData(res.data))
       .catch(() => {});
-  }, [isAuthenticated]);
+  }, [isAuthenticated, loading]);
 
   const resistancePie = data ? [
     { name: 'Resistant', value: data.overview.resistantCount },

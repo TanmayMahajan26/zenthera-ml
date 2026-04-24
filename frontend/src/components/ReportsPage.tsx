@@ -17,15 +17,16 @@ interface Report {
 }
 
 const ReportsPage: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
   const [reports, setReports] = useState<Report[]>([]);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
+    if (loading) return;
     if (!isAuthenticated) { navigate('/auth'); return; }
     fetchReports();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, loading]);
 
   const fetchReports = async () => {
     try {

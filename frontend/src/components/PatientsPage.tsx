@@ -216,6 +216,8 @@ const PatientsPage: React.FC = () => {
             </motion.div>
           </motion.div>
         )}
+      </AnimatePresence>
+
       {/* Patient Details Modal */}
       <AnimatePresence>
         {selectedPatient && (

@@ -56,7 +56,7 @@ const Dashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<'all' | 'resistant' | 'susceptible'>('all');
 
-  const { isAuthenticated } = useAuth();
+  useAuth(); // ensure auth context is available
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Inline patient form
